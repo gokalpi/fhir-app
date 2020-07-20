@@ -79,3 +79,8 @@ nz-content {
   background: #fff;
   height: 100%;
 }
+
+.ant-layout-footer {
+  padding: 0 24px;
+  text-align: center;
+}
