@@ -5,9 +5,10 @@ import { AllNgZorroAntdModules } from '../../all-ng-zorro-antd.module';
 
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
+import { MyScheduleComponent } from '../my-schedule/my-schedule.component';
 
 @NgModule({
-  declarations: [LayoutComponent],
+  declarations: [LayoutComponent, MyScheduleComponent],
   imports: [CommonModule, LayoutRoutingModule, AllNgZorroAntdModules],
   providers: [],
   exports: [LayoutComponent],

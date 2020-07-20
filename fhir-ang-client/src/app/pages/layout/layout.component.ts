@@ -22,7 +22,7 @@ export class LayoutComponent {
         {
           level: 2,
           title: 'My Schedule',
-          url: '/pages/schedule',
+          url: '/my-schedule',
           selected: true,
           disabled: false,
         },
@@ -39,14 +39,14 @@ export class LayoutComponent {
         {
           level: 2,
           title: 'List Patients',
-          url: '/pages/patients',
+          url: '/patients',
           selected: false,
           disabled: false,
         },
         {
           level: 2,
           title: 'Add Patient',
-          url: '/pages/patients/add',
+          url: '/patients/add',
           selected: false,
           disabled: false,
         },
@@ -63,14 +63,14 @@ export class LayoutComponent {
         {
           level: 2,
           title: 'List Examinations',
-          url: '/pages/examinations',
+          url: '/examinations',
           selected: false,
           disabled: false,
         },
         {
           level: 2,
           title: 'Add Examination',
-          url: '/pages/examinations/add',
+          url: '/examinations/add',
           selected: false,
           disabled: false,
         },
