@@ -22,6 +22,7 @@ export class LayoutComponent {
       open: true,
       selected: false,
       disabled: false,
+      roles: ['Doctor', 'Admin'],
       children: [
         {
           level: 2,
@@ -29,6 +30,7 @@ export class LayoutComponent {
           url: '/my-schedule',
           selected: true,
           disabled: false,
+          roles: ['Doctor'],
         },
       ],
     },
@@ -39,6 +41,7 @@ export class LayoutComponent {
       open: false,
       selected: false,
       disabled: false,
+      roles: ['Doctor', 'Admin'],
       children: [
         {
           level: 2,
@@ -46,6 +49,7 @@ export class LayoutComponent {
           url: '/patients',
           selected: false,
           disabled: false,
+          roles: ['Doctor', 'Admin'],
         },
         {
           level: 2,
@@ -53,6 +57,7 @@ export class LayoutComponent {
           url: '/patients/add',
           selected: false,
           disabled: false,
+          roles: ['Doctor', 'Admin'],
         },
       ],
     },
@@ -63,6 +68,7 @@ export class LayoutComponent {
       open: false,
       selected: false,
       disabled: false,
+      roles: ['Doctor', 'Admin'],
       children: [
         {
           level: 2,
@@ -70,6 +76,7 @@ export class LayoutComponent {
           url: '/examinations',
           selected: false,
           disabled: false,
+          roles: ['Doctor', 'Admin'],
         },
         {
           level: 2,
@@ -77,6 +84,72 @@ export class LayoutComponent {
           url: '/examinations/add',
           selected: false,
           disabled: false,
+          roles: ['Doctor', 'Admin'],
+        },
+      ],
+    },
+    {
+      level: 1,
+      title: 'Settings',
+      icon: 'setting',
+      open: false,
+      selected: false,
+      disabled: false,
+      roles: ['Admin'],
+      children: [
+        {
+          level: 2,
+          title: 'Users',
+          icon: 'team',
+          open: false,
+          selected: false,
+          disabled: false,
+          roles: ['Admin'],
+          children: [
+            {
+              level: 3,
+              title: 'List Users',
+              url: '/admin/users',
+              selected: false,
+              disabled: false,
+              roles: ['Admin'],
+            },
+            {
+              level: 3,
+              title: 'Add User',
+              url: '/admin/users/add',
+              selected: false,
+              disabled: false,
+              roles: ['Admin'],
+            },
+          ],
+        },
+        {
+          level: 2,
+          title: 'Roles',
+          icon: 'safety-certificate',
+          open: false,
+          selected: false,
+          disabled: false,
+          roles: ['Admin'],
+          children: [
+            {
+              level: 3,
+              title: 'List Roles',
+              url: '/admin/roles',
+              selected: false,
+              disabled: false,
+              roles: ['Admin'],
+            },
+            {
+              level: 3,
+              title: 'Add Role',
+              url: '/admin/roles/add',
+              selected: false,
+              disabled: false,
+              roles: ['Admin'],
+            },
+          ],
         },
       ],
     },
