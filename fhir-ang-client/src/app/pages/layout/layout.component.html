@@ -32,9 +32,9 @@
         <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
           <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
         </span>
-        <span class="float-right">
+        <span class="float-right" *ngIf="user">
           <a nz-dropdown [nzDropdownMenu]="menu">
-            İbrahim Gökalp
+            {{user.firstname + " " + user.lastname}}
             <i nz-icon nzType="down"></i>
           </a>
           <nz-dropdown-menu #menu="nzDropdownMenu">
@@ -43,7 +43,7 @@
                   <i nz-icon nzType="profile"></i>
                   Profile</a></li>
               <li nz-menu-divider></li>
-              <li nz-menu-item><a routerLink="/account/logout">
+              <li nz-menu-item><a (click)="logout()">
                   <i nz-icon nzType="logout"></i>
                   Logout</a></li>
             </ul>

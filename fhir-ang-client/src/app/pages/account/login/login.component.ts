@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AccountService } from '../../../core/services';
@@ -15,6 +20,8 @@ export class LoginComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   error = '';
+  passwordVisible = false;
+  password?: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -45,7 +52,15 @@ export class LoginComponent implements OnInit {
   }
 
   submitForm(): void {
+    for (const key in this.loginForm.controls) {
+      this.loginForm.controls[key].markAsDirty();
+      this.loginForm.controls[key].updateValueAndValidity();
+    }
+
     this.submitted = true;
+
+    // reset error
+    this.error = '';
 
     // stop here if form is invalid
     if (this.loginForm.invalid) {
@@ -60,7 +75,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate([this.returnUrl]);
         },
         (error) => {
-          this.error = error;
+          this.error = error.error.message;
         }
       );
   }

@@ -1,18 +1,33 @@
 <div class="container-center">
-  <nz-card style="width: 400px;">
-    <form nz-form [nzLayout]="'vertical'" [formGroup]="loginForm" (ngSubmit)="submitForm()">
+  <nz-card class="shadow-lg" style="width: 50%;">
+    <nz-alert nzType="error" nzMessage="{{this.error}}" *ngIf="this.error"></nz-alert>
+
+    <form nz-form nzLayout="vertical" [formGroup]="loginForm" (ngSubmit)="submitForm()">
       <nz-form-item>
         <nz-form-label nzRequired nzFor="username">Username</nz-form-label>
-        <nz-form-control nzErrorTip="Please input your username!">
-          <input nz-input formControlName="username" placeholder="User Name" />
+        <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+          <input nz-input formControlName="username" id="username" placeholder="User Name" />
+          <ng-template #userErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">
+              Please input your username!
+            </ng-container>
+            <ng-container *ngIf="control.hasError('duplicated')">
+              The username is redundant!
+            </ng-container>
+          </ng-template>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label nzRequired nzFor="password">Password</nz-form-label>
-        <a class="float-right text-muted" style="position: absolute; right: 24px;" routerLink="/account/forgot-password">Forgot Password?</a>
-        <nz-form-control nzErrorTip="Please input your Password!">
-          <input nz-input formControlName="password" placeholder="Password" />
-        </nz-form-control>
+        <nz-input-group nzHasFeedback nzValidatingTip="Validating..." [nzSuffix]="suffixTemplate"
+          nzErrorTip="Please input your Password!">
+          <input [type]="passwordVisible ? 'text' : 'password'" nz-input formControlName="password" id="password"
+            placeholder="Password" [(ngModel)]="password" />
+        </nz-input-group>
+        <ng-template #suffixTemplate>
+          <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+            (click)="passwordVisible = !passwordVisible"></i>
+        </ng-template>
       </nz-form-item>
       <div nz-row class="login-form-margin">
         <div nz-col [nzSpan]="12">

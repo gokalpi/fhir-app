@@ -1,5 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from '@angular/forms';
+import { first } from 'rxjs/operators';
+
+import { AccountService } from '../../../core/services';
 
 @Component({
   selector: 'app-register',
@@ -7,48 +16,87 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
-  validateForm!: FormGroup;
+  registerForm!: FormGroup;
+  submitted = false;
+  passwordVisible = false;
+  confirmPasswordVisible = false;
+  password?: string;
+  confirmPassword?: string;
+  error = '';
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private accountService: AccountService
+  ) {
+    // redirect to home if already logged in
+    if (this.accountService.userValue) {
+      this.router.navigate(['/']);
+    }
+  }
+
+  ngOnInit() {
+    this.registerForm = this.formBuilder.group({
+      username: [null, Validators.required],
+      password: [null, Validators.required],
+      checkPassword: [null, [Validators.required, this.confirmationValidator]],
+      firstname: [null, Validators.required],
+      lastname: [null, Validators.required],
+      email: [null, [Validators.email, Validators.required]],
+      phoneNumberPrefix: ['+90'],
+      phoneNumber: [null, [Validators.required]],
+      agree: [false],
+    });
+  }
+
+  // convenience getter for easy access to form fields
+  get f() {
+    return this.registerForm.controls;
+  }
 
   submitForm(): void {
-    for (const i in this.validateForm.controls) {
-      this.validateForm.controls[i].markAsDirty();
-      this.validateForm.controls[i].updateValueAndValidity();
+    for (const key in this.registerForm.controls) {
+      this.registerForm.controls[key].markAsDirty();
+      this.registerForm.controls[key].updateValueAndValidity();
     }
+
+    this.submitted = true;
+
+    // reset error
+    this.error = '';
+
+    // stop here if form is invalid
+    if (this.registerForm.invalid) {
+      return;
+    }
+
+    this.accountService
+      .register(this.registerForm.value)
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          this.router.navigate(['/account/login']);
+        },
+        (error) => {
+          this.error = error.error.message;
+        }
+      );
   }
 
   updateConfirmValidator(): void {
     /** wait for refresh value */
     Promise.resolve().then(() =>
-      this.validateForm.controls.checkPassword.updateValueAndValidity()
+      this.f.checkPassword.updateValueAndValidity()
     );
   }
 
   confirmationValidator = (control: FormControl): { [s: string]: boolean } => {
     if (!control.value) {
       return { required: true };
-    } else if (control.value !== this.validateForm.controls.password.value) {
+    } else if (control.value !== this.f.password.value) {
       return { confirm: true, error: true };
     }
     return {};
   };
-
-  getCaptcha(e: MouseEvent): void {
-    e.preventDefault();
-  }
-
-  constructor(private fb: FormBuilder) {}
-
-  ngOnInit(): void {
-    this.validateForm = this.fb.group({
-      email: [null, [Validators.email, Validators.required]],
-      password: [null, [Validators.required]],
-      checkPassword: [null, [Validators.required, this.confirmationValidator]],
-      nickname: [null, [Validators.required]],
-      phoneNumberPrefix: ['+86'],
-      phoneNumber: [null, [Validators.required]],
-      website: [null, [Validators.required]],
-      captcha: [null, [Validators.required]],
-      agree: [false],
-    });
-  }
 }

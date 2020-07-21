@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { User } from 'src/app/core/models';
+import { AccountService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-layout',
@@ -6,6 +8,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./layout.component.css'],
 })
 export class LayoutComponent {
+  user: User;
+
   isCollapsed = false;
 
   mode = false;
@@ -77,4 +81,12 @@ export class LayoutComponent {
       ],
     },
   ];
+
+  constructor(private accountService: AccountService) {
+    this.accountService.user.subscribe((x) => (this.user = x));
+  }
+
+  logout() {
+    this.accountService.logout();
+  }
 }
