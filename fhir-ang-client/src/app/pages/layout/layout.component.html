@@ -28,9 +28,26 @@
   </nz-sider>
   <nz-layout>
     <nz-header>
-      <div class="app-header">
+      <div class="app-header justify-content-between">
         <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
           <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
+        </span>
+        <span class="float-right">
+          <a nz-dropdown [nzDropdownMenu]="menu">
+            İbrahim Gökalp
+            <i nz-icon nzType="down"></i>
+          </a>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item><a routerLink="/account/my-profile">
+                  <i nz-icon nzType="profile"></i>
+                  Profile</a></li>
+              <li nz-menu-divider></li>
+              <li nz-menu-item><a routerLink="/account/logout">
+                  <i nz-icon nzType="logout"></i>
+                  Logout</a></li>
+            </ul>
+          </nz-dropdown-menu>
         </span>
       </div>
     </nz-header>

@@ -1,34 +1,34 @@
-<div class="container-fluid h-100">
-  <div class="container-center">
-    <nz-card>
-      <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
-        <nz-form-item>
-          <nz-form-control nzErrorTip="Please input your username!">
-            <nz-input-group nzPrefixIcon="user">
-              <input type="text" nz-input formControlName="userName" placeholder="Username" />
-            </nz-input-group>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-control nzErrorTip="Please input your Password!">
-            <nz-input-group nzPrefixIcon="lock">
-              <input type="password" nz-input formControlName="password" placeholder="Password" />
-            </nz-input-group>
-          </nz-form-control>
-        </nz-form-item>
-        <div nz-row class="login-form-margin">
-          <div nz-col [nzSpan]="12">
-            <label nz-checkbox formControlName="remember">
-              <span>Remember me</span>
-            </label>
-          </div>
-          <div nz-col [nzSpan]="12">
-            <a class="login-form-forgot">Forgot password</a>
-          </div>
+<div class="container-center">
+  <nz-card style="width: 400px;">
+    <form nz-form [nzLayout]="'vertical'" [formGroup]="loginForm" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="username">Username</nz-form-label>
+        <nz-form-control nzErrorTip="Please input your username!">
+          <input nz-input formControlName="username" placeholder="User Name" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="password">Password</nz-form-label>
+        <a class="float-right text-muted" style="position: absolute; right: 24px;" routerLink="/account/forgot-password">Forgot Password?</a>
+        <nz-form-control nzErrorTip="Please input your Password!">
+          <input nz-input formControlName="password" placeholder="Password" />
+        </nz-form-control>
+      </nz-form-item>
+      <div nz-row class="login-form-margin">
+        <div nz-col [nzSpan]="12">
+          <label nz-checkbox formControlName="remember">
+            <span>Remember me</span>
+          </label>
         </div>
-        <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Log in</button>
-        Or <a routerLink="/account/register"> register now! </a>
-      </form>
-    </nz-card>
-  </div>
+      </div>
+      <div nz-row class="login-form-margin">
+        <div nz-col [nzSpan]="12">
+          Don't have account? <a routerLink="/account/register">Register</a>
+        </div>
+        <div nz-col [nzSpan]="12">
+          <button nz-button nzType="primary" class="float-right">Log in</button>
+        </div>
+      </div>
+    </form>
+  </nz-card>
 </div>
