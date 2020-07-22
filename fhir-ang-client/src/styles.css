@@ -43,6 +43,26 @@
   border-radius: 0.25rem;
 }
 
+.anticon {
+  margin: 0 3px;
+}
+
+.anticon-sm {
+  font-size: 12px;
+}
+
+.anticon-md {
+  font-size: 15px;
+}
+
+.anticon-lg {
+  font-size: 18px;
+}
+
+.anticon-xl {
+  font-size: 21px;
+}
+
 .float-right {
   float: right !important;
 }
