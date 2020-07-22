@@ -4,7 +4,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './layout.component';
 import { AuthGuard } from '../../core/guards';
 import { Role } from 'src/app/core/enums';
-import { MyScheduleComponent } from '../my-schedule/my-schedule.component';
 
 const routes: Routes = [
   {
@@ -12,15 +11,18 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       {
-        path: 'my-schedule',
-        component: MyScheduleComponent,
+        path: 'admin',
+        loadChildren: () =>
+          import('../admin/admin.module').then((m) => m.AdminModule),
+        canActivate: [AuthGuard],
+        data: { roles: [Role.Admin] },
       },
       {
-        path: 'patients',
+        path: 'dashboard',
         loadChildren: () =>
-          import('../patient/patient.module').then((m) => m.PatientModule),
-        canActivate: [AuthGuard],
-        data: { roles: [Role.Doctor, Role.Admin] },
+          import('../dashboard/dashboard.module').then(
+            (m) => m.DashboardModule
+          ),
       },
       {
         path: 'examinations',
@@ -32,11 +34,11 @@ const routes: Routes = [
         data: { roles: [Role.Doctor, Role.Admin] },
       },
       {
-        path: 'admin',
+        path: 'patients',
         loadChildren: () =>
-          import('../admin/admin.module').then((m) => m.AdminModule),
+          import('../patient/patient.module').then((m) => m.PatientModule),
         canActivate: [AuthGuard],
-        data: { roles: [Role.Admin] },
+        data: { roles: [Role.Doctor, Role.Admin] },
       },
     ],
   },

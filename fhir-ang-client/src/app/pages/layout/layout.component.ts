@@ -27,7 +27,7 @@ export class LayoutComponent {
         {
           level: 2,
           title: 'My Schedule',
-          url: '/my-schedule',
+          url: '/dashboard',
           selected: true,
           disabled: false,
           roles: ['Doctor'],
