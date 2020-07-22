@@ -14,7 +14,7 @@ export class MyScheduleComponent implements OnInit {
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
     },
-    initialView: 'dayGridMonth',
+    initialView: 'timeGridDay',
     dateClick: this.handleDateClick.bind(this), // bind is important!
     events: [
       { title: 'event 1', date: '2020-07-22 08:00' },
