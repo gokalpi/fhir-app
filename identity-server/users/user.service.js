@@ -1,13 +1,14 @@
-﻿const config = require('config.json');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const db = require('_helpers/db');
+﻿const config = require("config.json");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const db = require("_helpers/db");
 const User = db.User;
 
 const Role = {
-  USER: 'User',
-  ADMIN: 'Admin'
-}
+  ADMIN: "Admin",
+  DOCTOR: "Doctor",
+  USER: "User",
+};
 
 module.exports = {
   authenticate,
@@ -15,26 +16,27 @@ module.exports = {
   getById,
   create,
   update,
-  delete: _delete
+  delete: _delete,
 };
 
-async function authenticate({
-  username,
-  password
-}) {
+async function authenticate({ username, password }) {
   const user = await User.findOne({
-    username
+    username,
   });
 
   if (user && bcrypt.compareSync(password, user.password)) {
-    const token = jwt.sign({
-      sub: user.id
-    }, config.secret, {
-      expiresIn: '7d'
-    });
+    const token = jwt.sign(
+      {
+        sub: user.id,
+      },
+      config.secret,
+      {
+        expiresIn: "7d",
+      }
+    );
     return {
       ...user.toJSON(),
-      token
+      token,
     };
   }
 }
@@ -49,9 +51,11 @@ async function getById(id) {
 
 async function create(userParam) {
   // validate
-  if (await User.findOne({
-      username: userParam.username
-    })) {
+  if (
+    await User.findOne({
+      username: userParam.username,
+    })
+  ) {
     throw 'Username "' + userParam.username + '" is already taken';
   }
 
@@ -73,18 +77,20 @@ async function update(id, userParam) {
   const user = await User.findById(id);
 
   // validate
-  if (!user) throw 'User not found';
-  if (user.username !== userParam.username && await User.findOne({
-      username: userParam.username
-    })) {
+  if (!user) throw "User not found";
+  if (
+    user.username !== userParam.username &&
+    (await User.findOne({
+      username: userParam.username,
+    }))
+  ) {
     throw 'Username "' + userParam.username + '" is already taken';
   }
 
-    // hash password if it was entered
+  // hash password if it was entered
   if (userParam.password) {
     userParam.password = bcrypt.hashSync(userParam.password, 10);
-  }
-  else {
+  } else {
     userParam.password = user.password;
   }
 
