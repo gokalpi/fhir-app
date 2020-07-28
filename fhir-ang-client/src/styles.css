@@ -16,7 +16,7 @@
   font-weight: 500;
 }
 
-.ant-form-item-label > label.ant-form-item-required:before {
+.ant-form-item-label>label.ant-form-item-required:before {
   display: inline-block;
   margin-right: 4px;
   color: #ff4d4f;
@@ -41,6 +41,30 @@
   background-color: #fff;
   border: 1px solid #edf2f9;
   border-radius: 0.25rem;
+}
+
+.ant-page-header {
+  padding: 0 0 16px 0;
+}
+
+.ant-page-header.has-breadcrumb {
+  padding-top: 0;
+}
+
+.ant-pagination-item {
+  border-radius: 25px;
+}
+
+.ant-pagination-item-active {
+  font-weight: 500;
+  background: #1890ff;
+  color: #fff;
+}
+
+.ant-pagination-item-active a,
+.ant-pagination-item:focus a,
+.ant-pagination-item:hover a {
+  color: #fff;
 }
 
 .anticon {
