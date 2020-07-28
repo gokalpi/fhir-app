@@ -4,6 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { AuthGuard } from 'src/app/core/guards';
 import { Role } from 'src/app/core/enums';
+import { UsersComponent } from './users/users.component';
+import { RolesComponent } from './roles/roles.component';
 
 const routes: Routes = [
   {
@@ -14,13 +16,13 @@ const routes: Routes = [
   },
   {
     path: 'users',
-    loadChildren: () => import('./user/user.module').then((m) => m.UserModule),
+    component: UsersComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Admin] },
   },
   {
     path: 'roles',
-    loadChildren: () => import('./role/role.module').then((m) => m.RoleModule),
+    component: RolesComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Admin] },
   },

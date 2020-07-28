@@ -5,11 +5,11 @@ import { User, TableColumn } from 'src/app/core/models';
 import { AccountService } from 'src/app/core/services';
 
 @Component({
-  selector: 'app-user-list',
-  templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.css'],
+  selector: 'app-users',
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.css']
 })
-export class UserListComponent implements OnInit {
+export class UsersComponent implements OnInit {
   users: User[] = [];
   listOfColumns: TableColumn[] = [
     {
