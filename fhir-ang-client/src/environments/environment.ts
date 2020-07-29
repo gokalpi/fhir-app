@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:4000',
-  fhirApiUrl: 'https://launch.smarthealthit.org/v/r4/fhir/'
+  fhirApiUrl: 'https://r4.smarthealthit.org' //'https://launch.smarthealthit.org/v/r4/fhir'
 };
 
 /*
