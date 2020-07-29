@@ -21,7 +21,7 @@
           <li
             *ngIf="!menu.children && menu.level === 1 && (!menu.roles || (menu.roles && menu.roles.indexOf(user.role) !== -1))"
             nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzDisabled]="menu.disabled" [nzSelected]="menu.selected"
-            [nzTitle]="isCollapsed ? menu.title : ''" [nzPaddingLeft]="menu.level * 24">
+            [nzTooltipTitle]="isCollapsed ? menu.title : ''" [nzPaddingLeft]="menu.level * 24">
             <a routerLink="{{ menu.url }}"><i nz-icon [nzType]="menu.icon" *ngIf="menu.icon"></i>
               <span>{{ menu.title }}</span></a>
           </li>
