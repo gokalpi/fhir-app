@@ -18,7 +18,8 @@ export class PatientListComponent implements OnInit {
   patients: FhirResource[] = [];
   validateForm!: FormGroup;
   isCollapse = true;
-  selectedValue = { label: '10', value: '10' };
+  pageSize = '10';
+  sortBy = 'name';
 
   constructor(
     private service: FhirService,
@@ -94,7 +95,7 @@ export class PatientListComponent implements OnInit {
 
     if (this.validateForm.controls.pageLength.value) {
       criteria.push(`_count=${this.validateForm.controls.pageLength.value}`);
-      this.selectedValue = this.validateForm.controls.pageLength.value;
+      this.pageSize = this.validateForm.controls.pageLength.value;
     }
 
     url = `${environment.fhirApiUrl}/Patient/_search`;

@@ -35,7 +35,8 @@
       <nz-form-item>
         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="sort">Sort by</nz-form-label>
         <nz-form-control [nzSm]="16" [nzXs]="24">
-          <nz-select formControlName="sort" id="sort" nzAllowClear nzPlaceHolder="Sort by" (ngModelChange)="submitForm()">
+          <nz-select formControlName="sort" id="sort" nzAllowClear nzPlaceHolder="Sort by"
+          [(ngModel)]="sortBy" (ngModelChange)="submitForm()">
             <nz-option nzValue="name" nzLabel="Name Ascending"></nz-option>
             <nz-option nzValue="-name" nzLabel="Name Descending"></nz-option>
             <nz-option nzValue="birthdate" nzLabel="Birth Date Ascending"></nz-option>
@@ -48,7 +49,8 @@
       <nz-form-item>
         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="sort">Show</nz-form-label>
         <nz-form-control [nzSm]="16" [nzXs]="24">
-          <nz-select formControlName="pageLength" id="pageLength" nzAllowClear nzPlaceHolder="Page Size" [(ngModel)]="pageSize" (ngModelChange)="submitForm()">
+          <nz-select formControlName="pageLength" id="pageLength" nzAllowClear nzPlaceHolder="Page Size"
+            [(ngModel)]="pageSize" (ngModelChange)="submitForm()">
             <nz-option nzValue="5" nzLabel="5 records"></nz-option>
             <nz-option nzValue="10" nzLabel="10 records"></nz-option>
             <nz-option nzValue="50" nzLabel="50 records"></nz-option>
