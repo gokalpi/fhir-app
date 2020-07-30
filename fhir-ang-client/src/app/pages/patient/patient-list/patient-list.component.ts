@@ -105,7 +105,6 @@ export class PatientListComponent implements OnInit {
     }
 
     this.service.getResources(url).subscribe((res) => {
-      console.log('Search result', res);
       this.nextUrl = this.getNextUrl(res);
       this.patients = res.entry;
       this.initLoading = false;
