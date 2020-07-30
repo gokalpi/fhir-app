@@ -1,3 +1,12 @@
+.ant-avatar {
+  width: 48px;
+  height: 48px;
+}
+
+.ant-list-split .ant-list-item {
+  border-bottom: 1px dashed #f0f0f0;
+}
+
 .ant-breadcrumb {
   font-weight: 500;
   margin-bottom: 1rem;
@@ -27,14 +36,14 @@
 }
 
 .ant-input {
-  padding: 0.55rem 1rem;
+  padding: 0.4rem 0.8rem;
   height: auto;
   border: 1px solid #edf2f9;
   border-radius: 0.25rem;
 }
 
 .ant-input-affix-wrapper {
-  padding: 0.55rem 1rem;
+  padding: 0.4rem 0.8rem;
   color: #53535f;
   font-size: 0.875rem;
   line-height: 1.5;
