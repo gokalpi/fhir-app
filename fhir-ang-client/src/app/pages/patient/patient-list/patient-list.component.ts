@@ -18,13 +18,8 @@ export class PatientListComponent implements OnInit {
   patients: FhirResource[] = [];
   validateForm!: FormGroup;
   isCollapse = true;
-  pageSize = '10';
-  sortBy = 'name';
 
-  constructor(
-    private service: FhirService,
-    private formBuilder: FormBuilder
-  ) {}
+  constructor(private service: FhirService, private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.validateForm = this.formBuilder.group({
@@ -33,7 +28,13 @@ export class PatientListComponent implements OnInit {
       sort: [null],
       pageLength: [null],
     });
+
     this.getPatients();
+  }
+
+  // convenience getter for easy access to form fields
+  get f() {
+    return this.validateForm.controls;
   }
 
   getAvatar(patient: any): string {
@@ -60,17 +61,24 @@ export class PatientListComponent implements OnInit {
   }
 
   getPatients() {
-    this.service.getPatients().subscribe((res) => {
-      this.nextUrl = this.getNextUrl(res);
-      this.patients = res.entry;
-      this.initLoading = false;
-    });
+    this.service
+      .search({
+        resourceType: 'Patient',
+        params: ['_sort=name', '_count=10'],
+      })
+      .subscribe((res) => {
+        console.log('Patient result', res);
+        this.nextUrl = this.getNextUrl(res);
+        this.patients = res.entry;
+        this.initLoading = false;
+      });
   }
 
   onLoadMore() {
     this.loadingMore = true;
 
-    this.service.getResources(this.nextUrl).subscribe((res: any) => {
+    this.service.getByUrl(this.nextUrl).subscribe((res: any) => {
+      console.log('onLoadMore Result:', res);
       this.patients = this.patients.concat(res.entry);
       this.nextUrl = this.getNextUrl(res);
       this.loadingMore = false;
@@ -78,36 +86,65 @@ export class PatientListComponent implements OnInit {
   }
 
   submitForm() {
-    let url = '';
-    let criteria: string[] = [];
+    console.log('submitForm');
+    let params: string[] = [];
 
     if (this.validateForm.controls.name.value) {
-      criteria.push(`name=${this.validateForm.controls.name.value}`);
+      params.push(`name=${this.validateForm.controls.name.value}`);
     }
 
     if (this.validateForm.controls.gender.value) {
-      criteria.push(`gender=${this.validateForm.controls.gender.value}`);
+      params.push(`gender=${this.validateForm.controls.gender.value}`);
     }
 
     if (this.validateForm.controls.sort.value) {
-      criteria.push(`_sort=${this.validateForm.controls.sort.value}`);
+      params.push(`_sort=${this.validateForm.controls.sort.value}`);
     }
 
     if (this.validateForm.controls.pageLength.value) {
-      criteria.push(`_count=${this.validateForm.controls.pageLength.value}`);
-      this.pageSize = this.validateForm.controls.pageLength.value;
+      params.push(`_count=${this.validateForm.controls.pageLength.value}`);
     }
 
-    url = `${environment.fhirApiUrl}/Patient/_search`;
+    this.service
+      .search({
+        resourceType: 'Patient',
+        params: params,
+      })
+      .subscribe((res) => {
+        console.log('Result', res);
+        this.nextUrl = this.getNextUrl(res);
+        this.patients = res.entry;
+        this.initLoading = false;
+      });
 
-    if (criteria.length > 0) {
-      url = url + '?' + criteria.join('&');
-    }
+    // if (this.validateForm.controls.name.value) {
+    //   criteria.push(`name=${this.validateForm.controls.name.value}`);
+    // }
 
-    this.service.getResources(url).subscribe((res) => {
-      this.nextUrl = this.getNextUrl(res);
-      this.patients = res.entry;
-      this.initLoading = false;
-    });
+    // if (this.validateForm.controls.gender.value) {
+    //   criteria.push(`gender=${this.validateForm.controls.gender.value}`);
+    // }
+
+    // if (this.validateForm.controls.sort.value) {
+    //   criteria.push(`_sort=${this.validateForm.controls.sort.value}`);
+    // }
+
+    // if (this.validateForm.controls.pageLength.value) {
+    //   criteria.push(`_count=${this.validateForm.controls.pageLength.value}`);
+    //   this.pageSize = this.validateForm.controls.pageLength.value;
+    // }
+
+    // url = `${environment.fhirApiUrl}/Patient/_search`;
+
+    // if (criteria.length > 0) {
+    //   url = url + '?' + criteria.join('&');
+    // }
+
+    // this.service.getByUrl(url).subscribe((res) => {
+    //   console.log('Result', res);
+    //   this.nextUrl = this.getNextUrl(res);
+    //   // this.patients = res.entry;
+    //   this.initLoading = false;
+    // });
   }
 }

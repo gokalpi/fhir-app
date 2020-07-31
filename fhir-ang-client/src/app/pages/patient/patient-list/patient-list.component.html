@@ -9,7 +9,7 @@
   </nz-breadcrumb>
 </nz-page-header>
 
-<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" class="search-form">
+<form nz-form [formGroup]="validateForm" class="search-form">
   <div nz-row nzJustify="space-between" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
     <div nz-col [nzXl]="6" [nzLg]="24">
       <nz-form-item>
@@ -36,7 +36,7 @@
         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="sort">Sort by</nz-form-label>
         <nz-form-control [nzSm]="16" [nzXs]="24">
           <nz-select formControlName="sort" id="sort" nzAllowClear nzPlaceHolder="Sort by"
-          [(ngModel)]="sortBy" (ngModelChange)="submitForm()">
+            (ngModelChange)="submitForm()">
             <nz-option nzValue="name" nzLabel="Name Ascending"></nz-option>
             <nz-option nzValue="-name" nzLabel="Name Descending"></nz-option>
             <nz-option nzValue="birthdate" nzLabel="Birth Date Ascending"></nz-option>
@@ -50,9 +50,9 @@
         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="sort">Show</nz-form-label>
         <nz-form-control [nzSm]="16" [nzXs]="24">
           <nz-select formControlName="pageLength" id="pageLength" nzAllowClear nzPlaceHolder="Page Size"
-            [(ngModel)]="pageSize" (ngModelChange)="submitForm()">
+            (ngModelChange)="submitForm()">
             <nz-option nzValue="5" nzLabel="5 records"></nz-option>
-            <nz-option nzValue="10" nzLabel="10 records"></nz-option>
+            <nz-option nzSelected nzValue="10" nzLabel="10 records"></nz-option>
             <nz-option nzValue="50" nzLabel="50 records"></nz-option>
             <nz-option nzValue="100" nzLabel="100 records"></nz-option>
           </nz-select>
