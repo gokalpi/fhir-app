@@ -5,6 +5,13 @@
 
 .ant-list-split .ant-list-item {
   border-bottom: 1px dashed #f0f0f0;
+  padding-left: 14px;
+  padding-right: 14px;
+}
+
+.ant-list-item:hover {
+  background: rgba(83, 83, 95, 0.15);
+  box-shadow: 0 0 4px #eee;
 }
 
 .ant-breadcrumb {
@@ -25,7 +32,7 @@
   font-weight: 500;
 }
 
-.ant-form-item-label>label.ant-form-item-required:before {
+.ant-form-item-label > label.ant-form-item-required:before {
   display: inline-block;
   margin-right: 4px;
   color: #ff4d4f;
