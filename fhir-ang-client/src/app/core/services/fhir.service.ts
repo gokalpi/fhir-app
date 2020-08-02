@@ -78,14 +78,14 @@ export class FhirService {
     return this.httpClient.get(url);
   }
 
-  read({ resourceType, id }): Observable<FhirResponse> {
+  read({ resourceType, id }) {
     if (!resourceType) {
       throw new Error('resourceType is required');
     } else if (!id) {
       throw new Error('id is required');
     }
 
-    return this.httpClient.get<FhirResponse>(
+    return this.httpClient.get(
       `${environment.fhirApiUrl}/${resourceType}/${id}`
     );
   }
