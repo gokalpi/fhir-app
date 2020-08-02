@@ -5,11 +5,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AllNgZorroAntdModules } from '../../all-ng-zorro-antd.module';
 
 import { PatientRoutingModule } from './patient-routing.module';
-import { PatientAddComponent } from './patient-add/patient-add.component';
 import { PatientListComponent } from './patient-list/patient-list.component';
+import { PatientDetailsComponent } from './patient-details/patient-details.component';
+import { PatientMedicationRequestsComponent } from './patient-details/patient-medication-requests/patient-medication-requests.component';
 
 @NgModule({
-  declarations: [PatientAddComponent, PatientListComponent],
+  declarations: [PatientListComponent, PatientDetailsComponent, PatientMedicationRequestsComponent],
   imports: [
     CommonModule,
     FormsModule,

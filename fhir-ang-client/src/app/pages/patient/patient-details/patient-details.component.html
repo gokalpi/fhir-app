@@ -1,0 +1,112 @@
+<nz-page-header class="site-page-header">
+  <nz-breadcrumb nz-page-header-breadcrumb nzSeparator=">">
+    <nz-breadcrumb-item>
+      <a routerLink="/"><i nz-icon nzType="home" nzTheme="twotone"></i> <span>Home</span></a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <i nz-icon nzType="user"></i> <span>Patient</span>
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</nz-page-header>
+
+<ng-container *ngIf="patient$ | async as patient">
+  <h1>{{ getFullName(patient.name) }}</h1>
+</ng-container>
+
+<nz-tabset nzTabPosition="left" nzType="line">
+  <nz-tab nzTitle="Meditaion Request">
+    <app-patient-medication-requests></app-patient-medication-requests>
+  </nz-tab>
+  <nz-tab nzTitle="Observations - Laboratory">
+    <h2>Observations - Laboratory</h2>
+    <ng-container *ngIf="laboratoryObservations$ | async as laboratoryObservations">
+      <nz-table nzSize="small" #laboratoryObservationsTable [nzData]="laboratoryObservations.entry">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let observation of laboratoryObservationsTable.data">
+            <td>{{observation.resource.code.text}}</td>
+            <td>{{observation.resource.valueQuantity.value}} {{observation.resource.valueQuantity.unit}}</td>
+            <td>{{observation.resource.effectiveDateTime | date}}</td>
+            <td>{{observation.resource.status}}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </ng-container>
+  </nz-tab>
+  <nz-tab nzTitle="Observations - Laboratory">
+    <h2>Observations - Laboratory</h2>
+    <ng-container *ngIf="laboratoryObservations$ | async as laboratoryObservations">
+      <nz-table nzSize="small" #laboratoryObservationsTable [nzData]="laboratoryObservations.entry">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let observation of laboratoryObservationsTable.data">
+            <td>{{observation.resource.code.text}}</td>
+            <td>{{observation.resource.valueQuantity.value}} {{observation.resource.valueQuantity.unit}}</td>
+            <td>{{observation.resource.effectiveDateTime | date}}</td>
+            <td>{{observation.resource.status}}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </ng-container>
+  </nz-tab>
+  <nz-tab nzTitle="Observations - Survey">
+    <h2>Observations - Survey</h2>
+    <ng-container *ngIf="surveyObservations$ | async as surveyObservations">
+      <nz-table nzSize="small" #surveyObservationsTable [nzData]="surveyObservations.entry">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let observation of surveyObservationsTable.data">
+            <td>{{observation.resource.code.text}}</td>
+            <td>{{observation.resource.valueCodeableConcept.text}}</td>
+            <td>{{observation.resource.effectiveDateTime | date}}</td>
+            <td>{{observation.resource.status}}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </ng-container>
+  </nz-tab>
+  <nz-tab nzTitle="Observations - Vital Signs">
+    <h2>Observations - Vital Signs</h2>
+    <ng-container *ngIf="vitalSignObservations$ | async as vitalSignObservations">
+      <nz-table nzSize="small" #vitalSignObservationsTable [nzData]="vitalSignObservations.entry">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let observation of vitalSignObservationsTable.data">
+            <td>{{observation.resource.code.text}}</td>
+            <td>{{getVitalSignObservationValue(observation.resource)}}</td>
+            <td>{{observation.resource.effectiveDateTime | date}}</td>
+            <td>{{observation.resource.status}}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </ng-container>
+  </nz-tab>
+</nz-tabset>
