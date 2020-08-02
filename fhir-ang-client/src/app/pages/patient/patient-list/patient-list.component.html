@@ -69,7 +69,7 @@
         <nz-list-item-meta-title>DOB: {{ item.resource.birthDate }}</nz-list-item-meta-title>
       </nz-list-item-meta>
       <ul nz-list-item-actions>
-        <nz-list-item-action><a (click)="edit(item)">edit</a></nz-list-item-action>
+        <nz-list-item-action><a [routerLink]="['/patients/', item.resource.id]">View Details</a></nz-list-item-action>
       </ul>
     </ng-container>
     <nz-skeleton *ngIf="item.loading" [nzAvatar]="true" [nzActive]="true" [nzTitle]="false" [nzLoading]="true">

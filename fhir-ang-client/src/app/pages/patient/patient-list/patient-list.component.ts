@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 import { FhirService } from '../../../core/services';
 import { FhirResource } from 'src/app/core/models';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-patient-list',
@@ -37,7 +37,7 @@ export class PatientListComponent implements OnInit {
     return this.validateForm.controls;
   }
 
-  getAvatar(patient: any): string {
+  getAvatar(patient: any) {
     return patient.resource.gender === 'male'
       ? '/assets/img/male.svg'
       : '/assets/img/female.svg';
@@ -67,7 +67,6 @@ export class PatientListComponent implements OnInit {
         params: ['_sort=name', '_count=10'],
       })
       .subscribe((res) => {
-        console.log('Patient result', res);
         this.nextUrl = this.getNextUrl(res);
         this.patients = res.entry;
         this.initLoading = false;
@@ -78,7 +77,6 @@ export class PatientListComponent implements OnInit {
     this.loadingMore = true;
 
     this.service.getByUrl(this.nextUrl).subscribe((res: any) => {
-      console.log('onLoadMore Result:', res);
       this.patients = this.patients.concat(res.entry);
       this.nextUrl = this.getNextUrl(res);
       this.loadingMore = false;
@@ -86,23 +84,22 @@ export class PatientListComponent implements OnInit {
   }
 
   submitForm() {
-    console.log('submitForm');
     let params: string[] = [];
 
-    if (this.validateForm.controls.name.value) {
-      params.push(`name=${this.validateForm.controls.name.value}`);
+    if (this.f.name.value) {
+      params.push(`name=${this.f.name.value}`);
     }
 
-    if (this.validateForm.controls.gender.value) {
-      params.push(`gender=${this.validateForm.controls.gender.value}`);
+    if (this.f.gender.value) {
+      params.push(`gender=${this.f.gender.value}`);
     }
 
-    if (this.validateForm.controls.sort.value) {
-      params.push(`_sort=${this.validateForm.controls.sort.value}`);
+    if (this.f.sort.value) {
+      params.push(`_sort=${this.f.sort.value}`);
     }
 
-    if (this.validateForm.controls.pageLength.value) {
-      params.push(`_count=${this.validateForm.controls.pageLength.value}`);
+    if (this.f.pageLength.value) {
+      params.push(`_count=${this.f.pageLength.value}`);
     }
 
     this.service
@@ -111,40 +108,9 @@ export class PatientListComponent implements OnInit {
         params: params,
       })
       .subscribe((res) => {
-        console.log('Result', res);
         this.nextUrl = this.getNextUrl(res);
         this.patients = res.entry;
         this.initLoading = false;
       });
-
-    // if (this.validateForm.controls.name.value) {
-    //   criteria.push(`name=${this.validateForm.controls.name.value}`);
-    // }
-
-    // if (this.validateForm.controls.gender.value) {
-    //   criteria.push(`gender=${this.validateForm.controls.gender.value}`);
-    // }
-
-    // if (this.validateForm.controls.sort.value) {
-    //   criteria.push(`_sort=${this.validateForm.controls.sort.value}`);
-    // }
-
-    // if (this.validateForm.controls.pageLength.value) {
-    //   criteria.push(`_count=${this.validateForm.controls.pageLength.value}`);
-    //   this.pageSize = this.validateForm.controls.pageLength.value;
-    // }
-
-    // url = `${environment.fhirApiUrl}/Patient/_search`;
-
-    // if (criteria.length > 0) {
-    //   url = url + '?' + criteria.join('&');
-    // }
-
-    // this.service.getByUrl(url).subscribe((res) => {
-    //   console.log('Result', res);
-    //   this.nextUrl = this.getNextUrl(res);
-    //   // this.patients = res.entry;
-    //   this.initLoading = false;
-    // });
   }
 }
