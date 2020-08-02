@@ -4,6 +4,9 @@
       <a routerLink="/"><i nz-icon nzType="home" nzTheme="twotone"></i> <span>Home</span></a>
     </nz-breadcrumb-item>
     <nz-breadcrumb-item>
+      <a routerLink="/patients"><i nz-icon nzType="team"></i> <span>Patients</span></a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
       <i nz-icon nzType="user"></i> <span>Patient</span>
     </nz-breadcrumb-item>
   </nz-breadcrumb>
@@ -11,102 +14,86 @@
 
 <ng-container *ngIf="patient$ | async as patient">
   <h1>{{ getFullName(patient.name) }}</h1>
+  <div nz-row style="margin-bottom: 1rem;">
+    <div nz-col nzLg="24" nzXl="3" class="container-center" style="margin: 1rem"><img
+        src="{{getAvatar(patient.gender)}}"></div>
+    <div nz-col nzLg="24" nzXl="7">
+      <div nz-row *ngFor="let item of patient.identifier">
+        <ng-container *ngIf="item.type">
+          <div nz-col nzLg="10" nzMd="24"><b>{{item.type.text}}</b></div>
+          <div nz-col nzLg="14" nzMd="24">{{item.value}}</div>
+        </ng-container>
+      </div>
+    </div>
+    <div nz-col nzLg="24" nzXl="6">
+      <div nz-row>
+        <div nz-col nzLg="10" nzMd="24"><b>Date of Birth</b></div>
+        <div nz-col nzLg="14" nzMd="24">{{patient.birthDate | date:"MMMM d, y h:mm a"}}</div>
+      </div>
+      <div nz-row *ngIf="patient.deceasedDateTime">
+        <div nz-col nzLg="10" nzMd="24"><b>Deceased Date</b></div>
+        <div nz-col nzLg="14" nzMd="24">{{patient.deceasedDateTime | date:"MMMM d, y h:mm a"}}</div>
+      </div>
+      <div nz-row>
+        <div nz-col nzLg="10" nzMd="24"><b>Marital Status</b></div>
+        <div nz-col nzLg="14" nzMd="24">{{patient.maritalStatus.text}}</div>
+      </div>
+    </div>
+    <div nz-col nzLg="24" nzXl="7">
+      <div nz-row *ngFor="let item of patient.telecom">
+        <div nz-col nzLg="10" nzMd="24"><b>{{item.use}} {{item.system}}</b></div>
+        <div nz-col nzLg="14" nzMd="24">{{item.value}}</div>
+      </div>
+      <div nz-row>
+        <div nz-col nzLg="10" nzMd="24"><b>Address</b></div>
+        <div nz-col nzLg="14" nzMd="24">{{getAddress(patient.address)}}</div>
+      </div>
+    </div>
+  </div>
 </ng-container>
 
-<nz-tabset nzTabPosition="left" nzType="line">
-  <nz-tab nzTitle="Meditaion Request">
-    <app-patient-medication-requests></app-patient-medication-requests>
+<nz-tabset>
+  <nz-tab nzTitle="Appointments">
+    <app-patient-appointments [patientId]="patientId"></app-patient-appointments>
+  </nz-tab>
+  <nz-tab nzTitle="Care Plans">
+    <ng-template nz-tab>
+      <app-patient-care-plans [patientId]="patientId"></app-patient-care-plans>
+    </ng-template>
+  </nz-tab>
+  <nz-tab nzTitle="Diagnostic Reports">
+    <ng-template nz-tab>
+      <app-patient-diagnostic-reports [patientId]="patientId"></app-patient-diagnostic-reports>
+    </ng-template>
+  </nz-tab>
+  <nz-tab nzTitle="Encounters">
+    <ng-template nz-tab>
+      <app-patient-encounters [patientId]="patientId"></app-patient-encounters>
+    </ng-template>
+  </nz-tab>
+  <nz-tab nzTitle="Medication Requests">
+    <ng-template nz-tab>
+      <app-patient-medication-requests [patientId]="patientId"></app-patient-medication-requests>
+    </ng-template>
   </nz-tab>
   <nz-tab nzTitle="Observations - Laboratory">
-    <h2>Observations - Laboratory</h2>
-    <ng-container *ngIf="laboratoryObservations$ | async as laboratoryObservations">
-      <nz-table nzSize="small" #laboratoryObservationsTable [nzData]="laboratoryObservations.entry">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Value</th>
-            <th>Date</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let observation of laboratoryObservationsTable.data">
-            <td>{{observation.resource.code.text}}</td>
-            <td>{{observation.resource.valueQuantity.value}} {{observation.resource.valueQuantity.unit}}</td>
-            <td>{{observation.resource.effectiveDateTime | date}}</td>
-            <td>{{observation.resource.status}}</td>
-          </tr>
-        </tbody>
-      </nz-table>
-    </ng-container>
-  </nz-tab>
-  <nz-tab nzTitle="Observations - Laboratory">
-    <h2>Observations - Laboratory</h2>
-    <ng-container *ngIf="laboratoryObservations$ | async as laboratoryObservations">
-      <nz-table nzSize="small" #laboratoryObservationsTable [nzData]="laboratoryObservations.entry">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Value</th>
-            <th>Date</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let observation of laboratoryObservationsTable.data">
-            <td>{{observation.resource.code.text}}</td>
-            <td>{{observation.resource.valueQuantity.value}} {{observation.resource.valueQuantity.unit}}</td>
-            <td>{{observation.resource.effectiveDateTime | date}}</td>
-            <td>{{observation.resource.status}}</td>
-          </tr>
-        </tbody>
-      </nz-table>
-    </ng-container>
+    <ng-template nz-tab>
+      <app-patient-laboratory-observations [patientId]="patientId"></app-patient-laboratory-observations>
+    </ng-template>
   </nz-tab>
   <nz-tab nzTitle="Observations - Survey">
-    <h2>Observations - Survey</h2>
-    <ng-container *ngIf="surveyObservations$ | async as surveyObservations">
-      <nz-table nzSize="small" #surveyObservationsTable [nzData]="surveyObservations.entry">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Value</th>
-            <th>Date</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let observation of surveyObservationsTable.data">
-            <td>{{observation.resource.code.text}}</td>
-            <td>{{observation.resource.valueCodeableConcept.text}}</td>
-            <td>{{observation.resource.effectiveDateTime | date}}</td>
-            <td>{{observation.resource.status}}</td>
-          </tr>
-        </tbody>
-      </nz-table>
-    </ng-container>
+    <ng-template nz-tab>
+      <app-patient-survey-observations [patientId]="patientId"></app-patient-survey-observations>
+    </ng-template>
   </nz-tab>
   <nz-tab nzTitle="Observations - Vital Signs">
-    <h2>Observations - Vital Signs</h2>
-    <ng-container *ngIf="vitalSignObservations$ | async as vitalSignObservations">
-      <nz-table nzSize="small" #vitalSignObservationsTable [nzData]="vitalSignObservations.entry">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Value</th>
-            <th>Date</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let observation of vitalSignObservationsTable.data">
-            <td>{{observation.resource.code.text}}</td>
-            <td>{{getVitalSignObservationValue(observation.resource)}}</td>
-            <td>{{observation.resource.effectiveDateTime | date}}</td>
-            <td>{{observation.resource.status}}</td>
-          </tr>
-        </tbody>
-      </nz-table>
-    </ng-container>
+    <ng-template nz-tab>
+      <app-patient-vital-sign-observations [patientId]="patientId"></app-patient-vital-sign-observations>
+    </ng-template>
+  </nz-tab>
+  <nz-tab nzTitle="Procedures">
+    <ng-template nz-tab>
+      <app-patient-procedures [patientId]="patientId"></app-patient-procedures>
+    </ng-template>
   </nz-tab>
 </nz-tabset>

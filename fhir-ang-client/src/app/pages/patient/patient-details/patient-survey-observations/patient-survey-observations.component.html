@@ -1,0 +1,20 @@
+<ng-container *ngIf="surveyObservations$ | async as surveyObservations">
+  <nz-table nzSize="small" #surveyObservationsTable [nzData]="surveyObservations.entry">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let observation of surveyObservationsTable.data">
+        <td>{{observation.resource.code.text}}</td>
+        <td>{{observation.resource.valueCodeableConcept.text}}</td>
+        <td>{{observation.resource.effectiveDateTime | date:"MMMM d, y h:mm a"}}</td>
+        <td>{{observation.resource.status}}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+</ng-container>
