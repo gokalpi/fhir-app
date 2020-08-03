@@ -1,0 +1,20 @@
+<ng-container *ngIf="patientEncounters$ | async as patientEncounters">
+  <nz-table nzSize="small" #patientEncountersTable [nzData]="patientEncounters.entry">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let encounter of patientEncountersTable.data">
+        <td>{{getTypes(encounter.resource.type)}}</td>
+        <td>{{encounter.resource.period.start | date:"MMMM d, y h:mm a"}}</td>
+        <td>{{encounter.resource.period.end | date:"MMMM d, y h:mm a"}}</td>
+        <td>{{encounter.resource.status}}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+</ng-container>
