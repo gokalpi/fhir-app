@@ -102,21 +102,21 @@ export class LayoutComponent {
     },
     {
       level: 1,
-      title: 'Settings',
+      title: 'Security',
       icon: 'setting',
       roles: ['Admin'],
       children: [
         {
           level: 2,
           title: 'Users',
-          url: '/admin/users',
+          url: '/administration/security/users',
           icon: 'team',
         },
         {
           level: 2,
           title: 'Roles',
           icon: 'safety-certificate',
-          url: '/admin/roles',
+          url: '/administration/security/roles',
         },
       ],
     },

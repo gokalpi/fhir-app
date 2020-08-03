@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AdministrationComponent } from './administration.component';
+import { AuthGuard } from 'src/app/core/guards';
+import { Role } from 'src/app/core/enums';
 
 const routes: Routes = [
   { path: '', component: AdministrationComponent },
@@ -45,6 +47,13 @@ const routes: Routes = [
     path: 'devices',
     loadChildren: () =>
       import('./device/device.module').then((m) => m.DeviceModule),
+  },
+  {
+    path: 'security',
+    loadChildren: () =>
+      import('./security/security.module').then((m) => m.SecurityModule),
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Admin] },
   },
 ];
 

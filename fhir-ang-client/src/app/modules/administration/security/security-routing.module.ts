@@ -1,19 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AdminComponent } from './admin.component';
+import { SecurityComponent } from './security.component';
+import { UsersComponent } from './users/users.component';
 import { AuthGuard } from 'src/app/core/guards';
 import { Role } from 'src/app/core/enums';
-import { UsersComponent } from './users/users.component';
 import { RolesComponent } from './roles/roles.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: AdminComponent,
-    canActivate: [AuthGuard],
-    data: { roles: [Role.Admin] },
-  },
+  { path: '', component: SecurityComponent },
   {
     path: 'users',
     component: UsersComponent,
@@ -32,4 +27,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AdminRoutingModule {}
+export class SecurityRoutingModule {}
