@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { AccountService } from '../../../core/services';
+import { AccountService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-register',
@@ -76,7 +76,7 @@ export class RegisterComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          this.router.navigate(['/account/login']);
+          this.router.navigate(['/security/login']);
         },
         (error) => {
           this.error = error.error.message;
@@ -86,9 +86,7 @@ export class RegisterComponent implements OnInit {
 
   updateConfirmValidator(): void {
     /** wait for refresh value */
-    Promise.resolve().then(() =>
-      this.f.checkPassword.updateValueAndValidity()
-    );
+    Promise.resolve().then(() => this.f.checkPassword.updateValueAndValidity());
   }
 
   confirmationValidator = (control: FormControl): { [s: string]: boolean } => {
