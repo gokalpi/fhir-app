@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 import { FhirService } from 'src/app/core/services';
