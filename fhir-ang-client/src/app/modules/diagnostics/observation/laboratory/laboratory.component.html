@@ -1,1 +1,35 @@
-<p>laboratory works!</p>
+<nz-page-header class="site-page-header" nzTitle="Laboratory Observations">
+  <nz-breadcrumb nz-page-header-breadcrumb nzSeparator=">">
+    <nz-breadcrumb-item>
+      <a routerLink="/"><i nz-icon nzType="home" nzTheme="twotone"></i> <span>Home</span></a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <i nz-icon nzType="experiment"></i> <span>Laboratory Observations</span>
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</nz-page-header>
+
+<ng-container *ngIf="isLoaded">
+  <nz-table nzSize="small" #laboratoryObservationsTable [nzData]="observations">
+    <thead>
+      <tr>
+        <th>Patient</th>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let observation of laboratoryObservationsTable.data">
+        <td>{{getPatientName(observation.resource.subject.reference.substr(8))}}</td>
+        <td>{{observation.resource.code.text}}</td>
+        <td>
+          {{getValue(observation.resource)}}
+        </td>
+        <td>{{observation.resource.effectiveDateTime | date:"MMMM d, y h:mm a"}}</td>
+        <td>{{observation.resource.status}}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+</ng-container>
