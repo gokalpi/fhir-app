@@ -103,7 +103,7 @@ export class LayoutComponent {
     {
       level: 1,
       title: 'Security',
-      icon: 'setting',
+      icon: 'security-scan',
       roles: ['Admin'],
       children: [
         {
