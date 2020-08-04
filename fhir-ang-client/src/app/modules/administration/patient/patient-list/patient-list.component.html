@@ -9,7 +9,7 @@
   </nz-breadcrumb>
 </nz-page-header>
 
-<form nz-form [formGroup]="validateForm" class="search-form">
+<form nz-form [formGroup]="filterForm" class="search-form">
   <div nz-row nzJustify="space-between" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
     <div nz-col [nzXl]="6" [nzLg]="24">
       <nz-form-item>
@@ -62,20 +62,17 @@
   </div>
 </form>
 
-<nz-list class="patients-list" [nzLoading]="initLoading">
-  <nz-list-item *ngFor="let item of patients">
-    <ng-container *ngIf="!item.loading">
-      <nz-list-item-meta [nzAvatar]="getAvatar(item)" [nzDescription]="getFullName(item)">
-        <nz-list-item-meta-title>DOB: {{ item.resource.birthDate }}</nz-list-item-meta-title>
-      </nz-list-item-meta>
-      <ul nz-list-item-actions>
-        <nz-list-item-action><a [routerLink]="['/patients/', item.resource.id]">View Details</a></nz-list-item-action>
-      </ul>
-    </ng-container>
-    <nz-skeleton *ngIf="item.loading" [nzAvatar]="true" [nzActive]="true" [nzTitle]="false" [nzLoading]="true">
-    </nz-skeleton>
+<nz-list class="patients-list" [nzLoading]="isLoading">
+  <nz-list-item *ngFor="let item of this.patients">
+    <nz-list-item-meta nzAvatar="/assets/img/{{item.resource.gender}}.svg" [nzDescription]="getFullName(item)">
+      <nz-list-item-meta-title>DOB: {{ item.resource.birthDate }}</nz-list-item-meta-title>
+    </nz-list-item-meta>
+    <ul nz-list-item-actions>
+      <nz-list-item-action><a [routerLink]="['/administration/patients/', item.resource.id]">View Details</a>
+      </nz-list-item-action>
+    </ul>
   </nz-list-item>
   <div class="loadmore" nz-list-load-more>
-    <button nz-button *ngIf="!loadingMore" (click)="onLoadMore()">loading more</button>
+    <button nz-button *ngIf="!loadingMore" (click)="onLoadMore()">Loading</button>
   </div>
 </nz-list>
