@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { CalendarOptions } from '@fullcalendar/angular';
 
 import { FhirService } from 'src/app/core/services';
@@ -9,7 +10,10 @@ import { FhirService } from 'src/app/core/services';
   styleUrls: ['./encounter.component.css'],
 })
 export class EncounterComponent implements OnInit {
+  bundleResult: any;
   encounters: any;
+  subscriptions: Subscription[] = [];
+  isLoaded = true;
   calendarOptions: CalendarOptions = {
     headerToolbar: {
       left: 'prev,next today',
@@ -18,40 +22,67 @@ export class EncounterComponent implements OnInit {
     },
     initialView: 'timeGridDay',
     dateClick: this.handleDateClick.bind(this),
-    slotDuration: '00:15:00'
+    slotDuration: '00:15:00',
   };
 
   constructor(private service: FhirService) {}
 
   ngOnInit(): void {
-    this.getEncounters();
+    // Get all enocunters sorted by date
+    this.subscriptions.push(
+      this.service
+        .search({
+          resourceType: 'Encounter',
+          params: ['_include=*', '_sort=-date', '_count=10'],
+        })
+        .subscribe((result: any) => {
+          this.bundleResult = result.entry;
+          this.encounters = result.entry.filter(
+            (items) => items.resource.resourceType === 'Encounter'
+          );
+          this.isLoaded = true;
+
+          const events = this.encounters
+            .filter((e) => e.resource.period)
+            .map((e) => {
+              return {
+                id: e.resource.id,
+                title: this.getPatientName(e.resource.subject.reference.substr(8)),
+                start: e.resource.period.start,
+                end: e.resource.period.end,
+                url: `/administration/encounters/${e.resource.id}`,
+              };
+            });
+
+          this.calendarOptions.events = events;
+          this.isLoaded = false;
+        })
+    );
   }
 
-  getEncounters() {
-    this.service
-      .search({
-        resourceType: 'Encounter',
-        params: ['_sort=-date', '_count=100'],
-      })
-      .subscribe((res) => {
-        this.encounters = res.entry;
-        console.log('Encounters', this.encounters);
+  getPatientName(patientId: string): string {
+    if (!patientId || patientId.length === 0) {
+      return '';
+    }
 
-        let events = this.encounters.map(function(encounter) {
-          return {
-            id: encounter.resource.id,
-            title: encounter.resource.type[0].text,
-            start: encounter.resource.period.start,
-            end: encounter.resource.period.end,
-            url: `/administration/encounters/${encounter.resource.id}`,
-          };
-        });
+    const patient = this.bundleResult.find(
+      (e) =>
+        e.resource.resourceType === 'Patient' && e.resource.id === patientId
+    );
 
-        this.calendarOptions.events = events;
-      });
+    if (patient) {
+      if (patient.resource.name) {
+        const name = patient.resource.name[0];
+        return `${name.prefix ? name.prefix.join(' ') : ''} ${
+          name.given ? name.given.join(' ') : ''
+        } ${name.family}`;
+      }
+    }
+
+    return '';
   }
 
-  handleDateClick(arg) {
+  handleDateClick(arg: any): void {
     alert('date click! ' + arg.dateStr);
   }
 }
