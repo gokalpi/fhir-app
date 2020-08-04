@@ -10,15 +10,14 @@ import { FhirService } from 'src/app/core/services';
   styleUrls: ['./patient-details.component.css'],
 })
 export class PatientDetailsComponent implements OnInit {
-  initLoading = true;
   patientId: string;
   patient$: Observable<any>;
 
-  constructor(private service: FhirService, private actRoute: ActivatedRoute) {
-    this.patientId = this.actRoute.snapshot.params.id;
-  }
+  constructor(private service: FhirService, private actRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
+    this.patientId = this.actRoute.snapshot.params.id;
+
     // Get all information about the patient
     this.patient$ = this.service.read({
       resourceType: 'Patient',
@@ -26,21 +25,15 @@ export class PatientDetailsComponent implements OnInit {
     });
   }
 
-  getAddress(addresses: any) {
+  getAddress(addresses: any): string {
     const address = addresses[0];
     return `${address.line ? address.line.join(' ') : ''} ${
       address.postalCode
     } ${address.city} ${address.state} ${address.country}`;
   }
 
-  getAvatar(gender: any) {
-    return gender === 'male'
-      ? '/assets/img/male.svg'
-      : '/assets/img/female.svg';
-  }
-
-  getFullName(names: any) {
-    let name = names[0];
+  getFullName(names: any): string {
+    const name = names[0];
     return `${name.prefix ? name.prefix.join(' ') : ''} ${name.given.join(
       ' '
     )} ${name.family}`;

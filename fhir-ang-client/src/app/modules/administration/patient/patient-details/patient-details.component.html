@@ -16,7 +16,7 @@
   <h1>{{ getFullName(patient.name) }}</h1>
   <div nz-row style="margin-bottom: 1rem;">
     <div nz-col nzLg="24" nzXl="3" class="container-center" style="margin: 1rem"><img
-        src="{{getAvatar(patient.gender)}}"></div>
+        src="/assets/img/{{patient.gender}}.svg"></div>
     <div nz-col nzLg="24" nzXl="7">
       <div nz-row *ngFor="let item of patient.identifier">
         <ng-container *ngIf="item.type">
