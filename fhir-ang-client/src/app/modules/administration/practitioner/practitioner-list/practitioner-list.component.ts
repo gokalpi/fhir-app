@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 import { FhirService } from 'src/app/core/services';
-import { FhirResource } from 'src/app/core/models';
 
 @Component({
   selector: 'app-practitioner-list',
@@ -10,17 +10,18 @@ import { FhirResource } from 'src/app/core/models';
   styleUrls: ['./practitioner-list.component.css'],
 })
 export class PractitionerListComponent implements OnInit, OnDestroy {
-  initLoading = true;
+  practitioners: any;
+  subscriptions: Subscription[] = [];
+  isLoading = true;
   loadingMore = false;
   submitted = false;
   nextUrl = '';
-  practitioners: FhirResource[] = [];
-  validateForm!: FormGroup;
+  filterForm!: FormGroup;
 
   constructor(private service: FhirService, private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
-    this.validateForm = this.formBuilder.group({
+    this.filterForm = this.formBuilder.group({
       name: [null],
       gender: [null],
       sort: [null],
@@ -28,72 +29,68 @@ export class PractitionerListComponent implements OnInit, OnDestroy {
     });
 
     // Get all practitioners
-    this.getPractitioners();
+    this.subscriptions.push(
+      this.service
+        .search({
+          resourceType: 'Practitioner',
+          params: ['_sort=name', '_count=10'],
+        })
+        .subscribe((result: any) => {
+          this.practitioners = result.entry;
+          this.nextUrl = this.getNextUrl(result);
+          this.isLoading = false;
+        })
+    );
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+  }
 
   // convenience getter for easy access to form fields
-  get f() {
-    return this.validateForm.controls;
+  get f(): any {
+    return this.filterForm.controls;
   }
 
-  getAddress(addresses: any) {
-    const address = addresses[0];
-    return `${address?.line.join(' ')} ${address?.postalCode} ${
-      address?.city
-    } ${address?.state} ${address?.country}`;
+  getAddress(address: any): string {
+    if (!address || address.length <= 0) {
+      return '';
+    }
+    return `${address[0]?.line.join(' ')} ${address[0]?.postalCode} ${
+      address[0]?.city
+    } ${address[0]?.state} ${address[0]?.country}`;
   }
 
-  getAvatar(gender: any) {
-    return gender === 'male'
-      ? '/assets/img/male.svg'
-      : '/assets/img/female.svg';
+  getFullName(name: any): string {
+    const officialName = name[0];
+    return `${
+      officialName.prefix ? officialName.prefix.join(' ') : ''
+    } ${officialName.given.join(' ')} ${officialName.family}`;
   }
 
-  getFullName(names: any) {
-    if (!names) { return ''; }
+  getNextUrl(item: any): string {
+    if (!item || !item.link) {
+      return '';
+    }
 
-    const name = names[0];
-    if (!name) { return ''; }
-
-    return `${name.prefix ? name.prefix.join(' ') : ''} ${name.given ? name.given.join(' ') : ''} ${name?.family}`;
-  }
-
-  getNextUrl(result: any): string {
-    const nextLink = result.link
-      ? result.link.find((l) => {
-          return l.relation === 'next';
-        })
-      : '';
+    const nextLink = item.link.find((l) => l.relation === 'next');
     return nextLink ? nextLink.url : '';
   }
 
-  getPractitioners() {
-    this.service
-      .search({
-        resourceType: 'Practitioner',
-        params: ['_sort=name', '_count=10'],
-      })
-      .subscribe((res) => {
-        this.nextUrl = this.getNextUrl(res);
-        this.practitioners = res.entry;
-        this.initLoading = false;
-      });
-  }
-
-  onLoadMore() {
+  onLoadMore(): void {
     this.loadingMore = true;
 
-    this.service.getByUrl(this.nextUrl).subscribe((res: any) => {
-      this.practitioners = this.practitioners.concat(res.entry);
-      this.nextUrl = this.getNextUrl(res);
-      this.loadingMore = false;
-    });
+    this.subscriptions.push(
+      this.service.getByUrl(this.nextUrl).subscribe((result: any) => {
+        this.practitioners = this.practitioners.concat(result.entry);
+        this.nextUrl = this.getNextUrl(result);
+        this.loadingMore = false;
+      })
+    );
   }
 
-  submitForm() {
-    let params: string[] = [];
+  submitForm(): void {
+    const params: string[] = [];
 
     if (this.f.name.value) {
       params.push(`name=${this.f.name.value}`);
@@ -111,15 +108,17 @@ export class PractitionerListComponent implements OnInit, OnDestroy {
       params.push(`_count=${this.f.pageLength.value}`);
     }
 
-    this.service
-      .search({
-        resourceType: 'Patient',
-        params,
-      })
-      .subscribe((res) => {
-        this.nextUrl = this.getNextUrl(res);
-        this.practitioners = res.entry;
-        this.initLoading = false;
-      });
+    this.subscriptions.push(
+      this.service
+        .search({
+          resourceType: 'Practitioner',
+          params,
+        })
+        .subscribe((result: any) => {
+          this.practitioners = result.entry;
+          this.nextUrl = this.getNextUrl(result);
+          this.isLoading = false;
+        })
+    );
   }
 }

@@ -52,15 +52,15 @@ export class PatientListComponent implements OnInit, OnDestroy {
     return this.filterForm.controls;
   }
 
-  getFullName(patient: any): string {
-    const officialName = patient.resource.name[0];
+  getFullName(name: any): string {
+    const officialName = name[0];
     return `${
       officialName.prefix ? officialName.prefix.join(' ') : ''
     } ${officialName.given.join(' ')} ${officialName.family}`;
   }
 
   getNextUrl(item: any): string {
-    if (item && item.link) {
+    if (!item || !item.link) {
       return '';
     }
 
@@ -75,7 +75,7 @@ export class PatientListComponent implements OnInit, OnDestroy {
       this.service.getByUrl(this.nextUrl).subscribe((result: any) => {
         this.patients = this.patients.concat(result.entry);
         this.nextUrl = this.getNextUrl(result);
-        this.isLoading = false;
+        this.loadingMore = false;
       })
     );
   }
