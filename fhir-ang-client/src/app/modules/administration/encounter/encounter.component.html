@@ -9,4 +9,17 @@
   </nz-breadcrumb>
 </nz-page-header>
 
-<full-calendar [options]="calendarOptions"></full-calendar>
+<ng-container *ngIf="isLoading">
+  <div id="loader-wrapper" class="loader-wrapper">
+    <div id="loader" class="loader">
+      <div class="inner one"></div>
+      <div class="inner two"></div>
+      <div class="inner three"></div>
+      <div class="message">Loading...</div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!isLoading">
+  <full-calendar [options]="calendarOptions"></full-calendar>
+</ng-container>

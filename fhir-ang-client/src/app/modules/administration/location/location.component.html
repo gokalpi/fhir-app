@@ -1,1 +1,47 @@
-<p>location works!</p>
+<nz-page-header class="site-page-header" nzTitle="Locations">
+  <nz-breadcrumb nz-page-header-breadcrumb nzSeparator=">">
+    <nz-breadcrumb-item>
+      <a routerLink="/"><i nz-icon nzType="home" nzTheme="twotone"></i> <span>Home</span></a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a routerLink="/administration"><i nz-icon nzType="setting" nzTheme="twotone"></i> <span>Administration</span></a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <i nz-icon nzType="environment" nzTheme="twotone"></i> <span>Locations</span>
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</nz-page-header>
+
+<ng-container *ngIf="isLoading">
+  <div id="loader-wrapper" class="loader-wrapper">
+    <div id="loader" class="loader">
+      <div class="inner one"></div>
+      <div class="inner two"></div>
+      <div class="inner three"></div>
+      <div class="message">Loading...</div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!isLoading">
+  <nz-table nzSize="small" #locationsTable [nzData]="locations">
+    <thead>
+      <tr>
+        <th>Organization</th>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Address</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let location of locationsTable.data">
+        <td>{{location.organization}}</td>
+        <td>{{location.name}}</td>
+        <td>{{location.phone}}</td>
+        <td>{{location.address}}</td>
+        <td>{{location.status}}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+</ng-container>

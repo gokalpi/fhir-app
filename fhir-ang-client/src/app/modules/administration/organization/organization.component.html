@@ -1,1 +1,48 @@
-<p>organization works!</p>
+<nz-page-header class="site-page-header" nzTitle="Organizations">
+    <nz-breadcrumb nz-page-header-breadcrumb nzSeparator=">">
+      <nz-breadcrumb-item>
+        <a routerLink="/"><i nz-icon nzType="home" nzTheme="twotone"></i> <span>Home</span></a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>
+        <a routerLink="/administration"><i nz-icon nzType="setting" nzTheme="twotone"></i> <span>Administration</span></a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>
+        <i nz-icon nzType="bank" nzTheme="twotone"></i> <span>Organizations</span>
+      </nz-breadcrumb-item>
+    </nz-breadcrumb>
+  </nz-page-header>
+  
+  <ng-container *ngIf="isLoading">
+    <div id="loader-wrapper" class="loader-wrapper">
+      <div id="loader" class="loader">
+        <div class="inner one"></div>
+        <div class="inner two"></div>
+        <div class="inner three"></div>
+        <div class="message">Loading...</div>
+      </div>
+    </div>
+  </ng-container>
+  
+  <ng-container *ngIf="!isLoading">
+    <nz-table nzSize="small" #organizationsTable [nzData]="organizations">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Phone</th>
+          <th>Address</th>
+          <th>Active</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let organization of organizationsTable.data">
+          <td>{{organization.name}}</td>
+          <td>{{organization.type}}</td>
+          <td>{{organization.phone}}</td>
+          <td>{{organization.address}}</td>
+          <td>{{organization.active}}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  

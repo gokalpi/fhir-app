@@ -54,13 +54,6 @@ export class LayoutComponent {
         },
         {
           level: 2,
-          title: 'Devices',
-          icon: 'desktop',
-          url: '/administration/devices',
-          roles: ['Admin'],
-        },
-        {
-          level: 2,
           title: 'Locations',
           icon: 'environment',
           url: '/administration/locations',

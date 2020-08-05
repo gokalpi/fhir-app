@@ -10,10 +10,10 @@ import { FhirService } from 'src/app/core/services';
   styleUrls: ['./encounter.component.css'],
 })
 export class EncounterComponent implements OnInit {
+  isLoading = true;
   bundleResult: any;
   encounters: any;
   subscriptions: Subscription[] = [];
-  isLoaded = true;
   calendarOptions: CalendarOptions = {
     headerToolbar: {
       left: 'prev,next today',
@@ -28,7 +28,7 @@ export class EncounterComponent implements OnInit {
   constructor(private service: FhirService) {}
 
   ngOnInit(): void {
-    // Get all enocunters sorted by date
+    // Get all encounters sorted by date
     this.subscriptions.push(
       this.service
         .search({
@@ -40,7 +40,6 @@ export class EncounterComponent implements OnInit {
           this.encounters = result.entry.filter(
             (items) => items.resource.resourceType === 'Encounter'
           );
-          this.isLoaded = true;
 
           const events = this.encounters
             .filter((e) => e.resource.period)
@@ -55,7 +54,7 @@ export class EncounterComponent implements OnInit {
             });
 
           this.calendarOptions.events = events;
-          this.isLoaded = false;
+          this.isLoading = false;
         })
     );
   }

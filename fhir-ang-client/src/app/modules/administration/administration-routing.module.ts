@@ -44,11 +44,6 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'devices',
-    loadChildren: () =>
-      import('./device/device.module').then((m) => m.DeviceModule),
-  },
-  {
     path: 'security',
     loadChildren: () =>
       import('./security/security.module').then((m) => m.SecurityModule),
