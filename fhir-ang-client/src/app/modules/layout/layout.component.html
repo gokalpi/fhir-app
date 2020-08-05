@@ -8,21 +8,23 @@
       </a>
     </div>
 
-    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+    <ul nz-menu nzMode="inline" [nzInlineCollapsed]="isCollapsed">
       <ng-container *ngTemplateOutlet="menuTpl; context: { $implicit: menus }"></ng-container>
       <ng-template #menuTpl let-menus>
         <ng-container *ngFor="let menu of menus">
           <li
             *ngIf="!menu.children && menu.level > 1 && (!menu.roles || (menu.roles && menu.roles.indexOf(user.role) !== -1))"
-            nz-menu-item [nzDisabled]="menu.disabled" [nzSelected]="menu.selected" [nzPaddingLeft]="menu.level * 24">
-            <a routerLink="{{ menu.url }}"><i nz-icon [nzType]="menu.icon" *ngIf="menu.icon"></i>
+            nz-menu-item [nzDisabled]="menu.disabled" [nzSelected]="menu.selected" [nzPaddingLeft]="menu.level * 24"
+            nzMatchRouter="true">
+            <a routerLink="{{ menu.url }}"><i *ngIf="menu.icon" nz-icon [nzType]="menu.icon"></i>
               <span>{{ menu.title }}</span></a>
           </li>
           <li
             *ngIf="!menu.children && menu.level === 1 && (!menu.roles || (menu.roles && menu.roles.indexOf(user.role) !== -1))"
             nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzDisabled]="menu.disabled" [nzSelected]="menu.selected"
-            [nzTooltipTitle]="isCollapsed ? menu.title : ''" [nzPaddingLeft]="menu.level * 24">
-            <a routerLink="{{ menu.url }}"><i nz-icon [nzType]="menu.icon" *ngIf="menu.icon"></i>
+            [nzTooltipTitle]="isCollapsed ? menu.title : ''" [nzPaddingLeft]="menu.level * 24"
+            nzMatchRouter="true">
+            <a routerLink="{{ menu.url }}"><i *ngIf="menu.icon" nz-icon [nzType]="menu.icon"></i>
               <span>{{ menu.title }}</span></a>
           </li>
           <li *ngIf="menu.children && (!menu.roles || (menu.roles.indexOf(user.role) !== -1))" nz-submenu
