@@ -38,7 +38,6 @@ export class AppointmentComponent implements OnInit {
       })
       .subscribe((res) => {
         this.appointments = res.entry;
-        console.log('Appointments', this.appointments);
       });
   }
 
