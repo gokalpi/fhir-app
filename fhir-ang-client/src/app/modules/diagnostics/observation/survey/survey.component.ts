@@ -9,7 +9,7 @@ import { FhirService } from 'src/app/core/services';
   styleUrls: ['./survey.component.css'],
 })
 export class SurveyComponent implements OnInit, OnDestroy {
-  isLoaded = false;
+  isLoading = true;
   bundleResult: any;
   observations: any;
   subscriptions: Subscription[] = [];
@@ -34,9 +34,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
           this.observations = result.entry.filter(
             (items) => items.resource.resourceType === 'Observation'
           );
-          this.isLoaded = true;
-          console.log('bundleResult', this.bundleResult);
-          console.log('Observations', this.observations);
+          this.isLoading = false;
         })
     );
   }

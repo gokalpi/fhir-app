@@ -9,7 +9,18 @@
   </nz-breadcrumb>
 </nz-page-header>
 
-<ng-container *ngIf="isLoaded">
+<ng-container *ngIf="isLoading">
+  <div id="loader-wrapper" class="loader-wrapper">
+    <div id="loader" class="loader">
+      <div class="inner one"></div>
+      <div class="inner two"></div>
+      <div class="inner three"></div>
+      <div class="message">Loading...</div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!isLoading">
   <nz-table nzSize="small" #laboratoryObservationsTable [nzData]="observations">
     <thead>
       <tr>
