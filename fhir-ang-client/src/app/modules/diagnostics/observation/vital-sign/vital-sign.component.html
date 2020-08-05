@@ -1,1 +1,44 @@
-<p>vital-sign works!</p>
+<nz-page-header class="site-page-header" nzTitle="Vital Sign Observations">
+  <nz-breadcrumb nz-page-header-breadcrumb nzSeparator=">">
+    <nz-breadcrumb-item>
+      <a routerLink="/"><i nz-icon nzType="home" nzTheme="twotone"></i> <span>Home</span></a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <i nz-icon nzType="fund-view"></i> <span>Vital Sign Observations</span>
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</nz-page-header>
+
+<ng-container *ngIf="isLoading">
+  <div id="loader-wrapper" class="loader-wrapper">
+    <div id="loader" class="loader">
+      <div class="inner one"></div>
+      <div class="inner two"></div>
+      <div class="inner three"></div>
+      <div class="message">Loading...</div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!isLoading">
+  <nz-table nzSize="small" #vitalSignObservationsTable [nzData]="observations">
+    <thead>
+      <tr>
+        <th>Patient</th>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let observation of vitalSignObservationsTable.data">
+        <td>{{getPatientName(observation.resource.subject.reference.substr(8))}}</td>
+        <td>{{observation.resource.code.coding[0].display}}</td>
+        <td>{{getVitalSignObservationValue(observation.resource)}}</td>
+        <td>{{observation.resource.effectiveDateTime | date:"MMMM d, y h:mm a"}}</td>
+        <td>{{observation.resource.status}}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+</ng-container>
