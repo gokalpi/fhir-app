@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 
 import { FhirService } from 'src/app/core/services';
 
-
 @Component({
   selector: 'app-patient-vital-sign-observations',
   templateUrl: './patient-vital-sign-observations.component.html',
@@ -27,15 +26,15 @@ export class PatientVitalSignObservationsComponent implements OnInit {
     });
   }
 
-  getVitalSignObservationValue(observation: any) {
+  getVitalSignObservationValue(observation: any): string {
     if (observation.valueQuantity) {
       return `${observation.valueQuantity.value} ${observation.valueQuantity.unit}`;
     }
 
-    let vitalSignValue = [];
-    for (let index = 0; index < observation.component.length; index++) {
+    const vitalSignValue = [];
+    for (const item of observation.component) {
       vitalSignValue.push(
-        `${observation.component[index].code.text}: ${observation.component[index].valueQuantity.value} ${observation.component[index].valueQuantity.unit}`
+        `${item.code.text}: ${item.valueQuantity.value} ${item.valueQuantity.unit}`
       );
     }
 
