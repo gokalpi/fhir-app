@@ -16,6 +16,7 @@ registerLocaleData(en);
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 
 import { JwtInterceptor, ErrorInterceptor } from './core/interceptors';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +26,7 @@ import { JwtInterceptor, ErrorInterceptor } from './core/interceptors';
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    SweetAlert2Module.forRoot(),
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },

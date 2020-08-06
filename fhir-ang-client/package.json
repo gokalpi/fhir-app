@@ -24,9 +24,11 @@
     "@fullcalendar/interaction": "^5.1.0",
     "@fullcalendar/list": "^5.1.0",
     "@fullcalendar/timegrid": "^5.1.0",
+    "@sweetalert2/ngx-sweetalert2": "^8.1.1",
     "line-awesome": "^1.3.0",
     "ng-zorro-antd": "^9.3.0",
     "rxjs": "~6.5.5",
+    "sweetalert2": "^9.17.1",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
   },
