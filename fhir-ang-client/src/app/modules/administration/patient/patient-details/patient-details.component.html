@@ -4,7 +4,10 @@
       <a routerLink="/"><i nz-icon nzType="home" nzTheme="twotone"></i> <span>Home</span></a>
     </nz-breadcrumb-item>
     <nz-breadcrumb-item>
-      <a routerLink="/patients"><i nz-icon nzType="team"></i> <span>Patients</span></a>
+      <a routerLink="/administration"><i nz-icon nzType="setting" nzTheme="twotone"></i> <span>Administration</span></a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a routerLink="/administration/patients"><i nz-icon nzType="team"></i> <span>Patients</span></a>
     </nz-breadcrumb-item>
     <nz-breadcrumb-item>
       <i nz-icon nzType="user"></i> <span>Patient</span>
@@ -13,7 +16,7 @@
 </nz-page-header>
 
 <ng-container *ngIf="patient$ | async as patient">
-  <h1>{{ getFullName(patient.name) }}</h1>
+  <h1>{{ getOfficialName(patient.name) }}</h1>
   <div nz-row style="margin-bottom: 1rem;">
     <div nz-col nzLg="24" nzXl="3" class="container-center" style="margin: 1rem"><img
         src="/assets/img/{{patient.gender}}.svg"></div>

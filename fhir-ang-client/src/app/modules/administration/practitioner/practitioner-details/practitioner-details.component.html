@@ -1,1 +1,29 @@
-<p>practitioner-details works!</p>
+<nz-page-header class="site-page-header">
+  <nz-breadcrumb nz-page-header-breadcrumb nzSeparator=">">
+    <nz-breadcrumb-item>
+      <a routerLink="/"><i nz-icon nzType="home" nzTheme="twotone"></i> <span>Home</span></a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a routerLink="/administration"><i nz-icon nzType="setting" nzTheme="twotone"></i> <span>Administration</span></a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a routerLink="/administration/practitioners"><i nz-icon nzType="team"></i> <span>Practitioners</span></a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <i nz-icon nzType="user"></i> <span>Practitioner</span>
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</nz-page-header>
+
+<ng-container *ngIf="practitioner$ | async as practitioner">
+  <h1>{{ getFullName(practitioner.name) }}</h1>
+  <div nz-row style="margin-bottom: 1rem;">
+    <div nz-col nzLg="24" nzXl="3" class="container-center" style="margin: 1rem"><img
+        src="/assets/img/{{practitioner.gender}}.svg"></div>
+    <div nz-col nzLg="24" nzXl="7">
+      <div nz-row *ngFor="let item of practitioner.identifier">
+        <div nz-col nzLg="14" nzMd="24">{{item.value}}</div>
+      </div>
+    </div>
+  </div>
+</ng-container>

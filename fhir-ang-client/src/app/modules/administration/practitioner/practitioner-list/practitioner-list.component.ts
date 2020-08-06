@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
 
 import { FhirService } from 'src/app/core/services';
 
@@ -36,7 +37,7 @@ export class PractitionerListComponent implements OnInit, OnDestroy {
           params: ['_sort=name', '_count=10'],
         })
         .subscribe((result: any) => {
-          this.practitioners = result.entry;
+          this.practitioners = this.generateList(result.entry);
           this.nextUrl = this.getNextUrl(result);
           this.isLoading = false;
         })
@@ -52,29 +53,47 @@ export class PractitionerListComponent implements OnInit, OnDestroy {
     return this.filterForm.controls;
   }
 
-  getAddress(address: any): string {
-    if (!address || address.length <= 0) {
-      return '';
+  generateList(items: any): any[] {
+    const list: any[] = [];
+    for (const item of items) {
+      list.push({
+        id: item.resource.id,
+        name: this.getFullName(item.resource.name),
+        gender: item.resource.gender,
+        address: this.getAddress(item.resource.address),
+        status: item.resource.status,
+      });
     }
-    return `${address[0]?.line.join(' ')} ${address[0]?.postalCode} ${
-      address[0]?.city
-    } ${address[0]?.state} ${address[0]?.country}`;
+
+    return list;
+  }
+
+  getAddress(address: any): string {
+    if (address && address[0]) {
+      return `${address[0].line ? address[0].line.join(' ') : ''} ${
+        address[0].postalCode
+      } ${address[0].city} ${address[0].state} ${address[0].country}`;
+    }
   }
 
   getFullName(name: any): string {
-    const officialName = name[0];
-    return `${
-      officialName.prefix ? officialName.prefix.join(' ') : ''
-    } ${officialName.given.join(' ')} ${officialName.family}`;
+    if (name && name[0]) {
+      const officialName = name[0];
+      if (officialName) {
+        return `${officialName.prefix ? officialName.prefix.join(' ') : ''} ${
+          officialName.given ? officialName.given.join(' ') : ''
+        } ${officialName.family}`;
+      }
+    }
+    return '';
   }
 
   getNextUrl(item: any): string {
-    if (!item || !item.link) {
-      return '';
+    if (item) {
+      const nextLink = item.link.find((l) => l.relation === 'next');
+      return nextLink ? nextLink.url : '';
     }
-
-    const nextLink = item.link.find((l) => l.relation === 'next');
-    return nextLink ? nextLink.url : '';
+    return '';
   }
 
   onLoadMore(): void {
@@ -120,5 +139,21 @@ export class PractitionerListComponent implements OnInit, OnDestroy {
           this.isLoading = false;
         })
     );
+  }
+
+  onAdd(): void {
+    Swal.fire('Added!', `Practitioner added successfully`, 'success');
+  }
+
+  onDelete(practitioner: any): void {
+    Swal.fire(
+      'Deleted!',
+      `Practitioner with id ${practitioner.id} deleted`,
+      'success'
+    );
+  }
+
+  onEdit(practitioner: any): void {
+    console.log(`Editing practitioner with id ${practitioner.id}`);
   }
 }

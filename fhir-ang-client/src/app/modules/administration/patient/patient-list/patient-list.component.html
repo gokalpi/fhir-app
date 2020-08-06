@@ -4,9 +4,17 @@
       <a routerLink="/"><i nz-icon nzType="home" nzTheme="twotone"></i> <span>Home</span></a>
     </nz-breadcrumb-item>
     <nz-breadcrumb-item>
+      <a routerLink="/administration"><i nz-icon nzType="setting" nzTheme="twotone"></i> <span>Administration</span></a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
       <i nz-icon nzType="team"></i> <span>Patients</span>
     </nz-breadcrumb-item>
   </nz-breadcrumb>
+
+  <nz-page-header-extra>
+    <button nz-button nzType="primary" (click)="onAdd()"><i nz-icon nzType="plus" nzTheme="outline"></i> Add
+      New</button>
+  </nz-page-header-extra>
 </nz-page-header>
 
 <form nz-form [formGroup]="filterForm" class="search-form">
@@ -76,12 +84,19 @@
 <ng-container *ngIf="!isLoading">
   <nz-list class="patients-list">
     <nz-list-item *ngFor="let item of this.patients">
-      <nz-list-item-meta nzAvatar="/assets/img/{{item.resource.gender}}.svg"
-        [nzDescription]="getFullName(item.resource.name)">
-        <nz-list-item-meta-title>DOB: {{ item.resource.birthDate }}</nz-list-item-meta-title>
+      <nz-list-item-meta nzAvatar="/assets/img/{{item.gender}}.svg" [nzDescription]="item.name">
+        <nz-list-item-meta-title>DOB: {{ item.birthDate | date:"MMMM d, y h:mm a" }}</nz-list-item-meta-title>
       </nz-list-item-meta>
       <ul nz-list-item-actions>
-        <nz-list-item-action><a [routerLink]="['/administration/patients/', item.resource.id]">View Details</a>
+        <nz-list-item-action>
+          <a [routerLink]="['/administration/patients/', item.id]" title="View Details"><i nz-icon nzType="eye"
+              nzTheme="twotone" class="anticon-lg"></i></a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a title="Edit" (click)="onEdit(item)"><i nz-icon nzType="edit" nzTheme="twotone" nzTwotoneColor="#52c41a"
+              class="anticon-lg"></i></a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a title="Delete" [swal]="deleteSwal" (confirm)="onDelete(item)"><i nz-icon nzType="delete" nzTheme="twotone"
+              nzTwotoneColor="#eb2f96" class="anticon-lg"></i></a>
         </nz-list-item-action>
       </ul>
     </nz-list-item>
@@ -90,3 +105,7 @@
     </div>
   </nz-list>
 </ng-container>
+
+<swal #deleteSwal title="Are you sure?" text="You won't be able to revert this!" icon="warning" showCancelButton="true"
+  focusCancel="true" confirmButtonColor="#3085d6" cancelButtonColor="#d33" confirmButtonText="Yes, delete it!">
+</swal>

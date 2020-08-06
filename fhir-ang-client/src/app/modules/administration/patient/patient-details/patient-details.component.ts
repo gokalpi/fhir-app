@@ -25,17 +25,23 @@ export class PatientDetailsComponent implements OnInit {
     });
   }
 
-  getAddress(addresses: any): string {
-    const address = addresses[0];
-    return `${address.line ? address.line.join(' ') : ''} ${
-      address.postalCode
-    } ${address.city} ${address.state} ${address.country}`;
+  getAddress(address: any): string {
+    if (address && address[0]) {
+      return `${address[0].line ? address[0].line.join(' ') : ''} ${
+        address[0].postalCode
+      } ${address[0].city} ${address[0].state} ${address[0].country}`;
+    }
   }
 
-  getFullName(names: any): string {
-    const name = names[0];
-    return `${name.prefix ? name.prefix.join(' ') : ''} ${name.given.join(
-      ' '
-    )} ${name.family}`;
+  getOfficialName(name: any): string {
+    if (name) {
+      const officialName = name.find((e) => e.use === 'official');
+      if (officialName) {
+        return `${officialName.prefix ? officialName.prefix.join(' ') : ''} ${
+          officialName.given ? officialName.given.join(' ') : ''
+        } ${officialName.family}`;
+      }
+    }
+    return '';
   }
 }
