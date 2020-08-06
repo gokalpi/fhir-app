@@ -68,7 +68,12 @@
 }
 
 .ant-pagination-item {
-  border-radius: 25px;
+  border-radius: 1rem;
+}
+
+.ant-pagination-next .ant-pagination-item-link,
+.ant-pagination-prev .ant-pagination-item-link {
+  border-radius: 1rem;
 }
 
 .ant-pagination-item-active {
@@ -77,10 +82,13 @@
   color: #fff;
 }
 
-.ant-pagination-item-active a,
+.ant-pagination-item-active a {
+  color: #fff;
+}
+
 .ant-pagination-item:focus a,
 .ant-pagination-item:hover a {
-  color: #fff;
+  color: #000;
 }
 
 .anticon {
@@ -118,7 +126,6 @@
 .shadow-lg {
   box-shadow: 0 1rem 3rem rgba(77, 84, 124, 0.09) !important;
 }
-
 
 /* Loader animation */
 .loader-wrapper {
