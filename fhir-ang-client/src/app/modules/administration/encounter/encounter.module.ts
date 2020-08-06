@@ -11,6 +11,7 @@ import { AllNgZorroAntdModules } from 'src/app/all-ng-zorro-antd.module';
 
 import { EncounterRoutingModule } from './encounter-routing.module';
 import { EncounterComponent } from './encounter.component';
+import { EncounterDetailsComponent } from './encounter-details/encounter-details.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -20,7 +21,7 @@ FullCalendarModule.registerPlugins([
 ]);
 
 @NgModule({
-  declarations: [EncounterComponent],
+  declarations: [EncounterComponent, EncounterDetailsComponent],
   imports: [
     CommonModule,
     EncounterRoutingModule,
