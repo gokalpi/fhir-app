@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 import { User, TableColumn } from 'src/app/core/models';
@@ -7,10 +8,11 @@ import { AccountService } from 'src/app/core/services';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css']
+  styleUrls: ['./users.component.css'],
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
   users: User[] = [];
+  subscriptions: Subscription[] = [];
   listOfColumns: TableColumn[] = [
     {
       name: 'Name',
@@ -47,12 +49,18 @@ export class UsersComponent implements OnInit {
 
   constructor(private accountService: AccountService) {}
 
-  ngOnInit() {
-    this.accountService
-      .getAll()
-      .pipe(first())
-      .subscribe((users) => {
-        this.users = users;
-      });
+  ngOnInit(): void {
+    this.subscriptions.push(
+      this.accountService
+        .getAll()
+        .pipe(first())
+        .subscribe((users) => {
+          this.users = users;
+        })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 }
