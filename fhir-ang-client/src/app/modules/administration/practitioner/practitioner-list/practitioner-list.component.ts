@@ -101,7 +101,7 @@ export class PractitionerListComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       this.service.getByUrl(this.nextUrl).subscribe((result: any) => {
-        this.practitioners = this.practitioners.concat(result.entry);
+        this.practitioners = this.practitioners.concat(this.generateList(result.entry));
         this.nextUrl = this.getNextUrl(result);
         this.loadingMore = false;
       })
@@ -134,7 +134,7 @@ export class PractitionerListComponent implements OnInit, OnDestroy {
           params,
         })
         .subscribe((result: any) => {
-          this.practitioners = result.entry;
+          this.practitioners = this.generateList(result.entry);
           this.nextUrl = this.getNextUrl(result);
           this.isLoading = false;
         })

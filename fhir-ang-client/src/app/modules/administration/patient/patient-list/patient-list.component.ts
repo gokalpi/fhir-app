@@ -93,7 +93,7 @@ export class PatientListComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       this.service.getByUrl(this.nextUrl).subscribe((result: any) => {
-        this.patients = this.patients.concat(result.entry);
+        this.patients = this.patients.concat(this.generateList(result.entry));
         this.nextUrl = this.getNextUrl(result);
         this.loadingMore = false;
       })
@@ -126,7 +126,7 @@ export class PatientListComponent implements OnInit, OnDestroy {
           params,
         })
         .subscribe((result: any) => {
-          this.patients = result.entry;
+          this.patients = this.generateList(result.entry);
           this.nextUrl = this.getNextUrl(result);
           this.isLoading = false;
         })
