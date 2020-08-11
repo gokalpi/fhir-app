@@ -22,8 +22,7 @@
           <li
             *ngIf="!menu.children && menu.level === 1 && (!menu.roles || (menu.roles && menu.roles.indexOf(user.role) !== -1))"
             nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzDisabled]="menu.disabled" [nzSelected]="menu.selected"
-            [nzTooltipTitle]="isCollapsed ? menu.title : ''" [nzPaddingLeft]="menu.level * 24"
-            nzMatchRouter="true">
+            [nzTooltipTitle]="isCollapsed ? menu.title : ''" [nzPaddingLeft]="menu.level * 24" nzMatchRouter="true">
             <a routerLink="{{ menu.url }}"><i *ngIf="menu.icon" nz-icon [nzType]="menu.icon"></i>
               <span>{{ menu.title }}</span></a>
           </li>
@@ -64,9 +63,7 @@
       </div>
     </nz-header>
     <nz-content>
-      <div class="inner-content">
-        <router-outlet></router-outlet>
-      </div>
+      <router-outlet></router-outlet>
     </nz-content>
     <nz-footer>Turkcell Telehealth ©2020 Turkcell Technology</nz-footer>
   </nz-layout>
