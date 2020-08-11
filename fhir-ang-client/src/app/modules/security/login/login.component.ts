@@ -23,12 +23,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private accountService: AccountService
-  ) {
-    // redirect to home if already logged in
-    if (this.accountService.userValue) {
-      this.router.navigate(['/']);
-    }
-  }
+  ) {}
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -37,8 +32,17 @@ export class LoginComponent implements OnInit {
       remember: [true],
     });
 
+    const defaultLoginPage = '';
+
     // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'];
+
+    // redirect to home if already logged in
+    if (this.accountService.userValue) {
+      this.router.navigate([
+        this.getDefaultPage(this.accountService.userValue.role),
+      ]);
+    }
   }
 
   // convenience getter for easy access to form fields
@@ -67,11 +71,27 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          this.router.navigate([this.returnUrl]);
+          this.router.navigate([
+            this.returnUrl || this.getDefaultPage(data.role),
+          ]);
         },
         (error) => {
           this.error = error;
         }
       );
+  }
+
+  getDefaultPage(role: string): string {
+    switch (role) {
+      case 'Admin':
+        return '/dashboard/admin';
+        break;
+      case 'Doctor':
+        return '/dashboard/doctor';
+        break;
+      default:
+        return '/';
+        break;
+    }
   }
 }

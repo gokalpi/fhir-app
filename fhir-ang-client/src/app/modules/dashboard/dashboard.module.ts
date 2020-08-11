@@ -11,6 +11,8 @@ import { AllNgZorroAntdModules } from '../../all-ng-zorro-antd.module';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { MyScheduleComponent } from './my-schedule.component';
+import { DashboardAdminComponent } from './admin/admin.component';
+import { DoctorComponent } from './doctor/doctor.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -20,7 +22,7 @@ FullCalendarModule.registerPlugins([
 ]);
 
 @NgModule({
-  declarations: [MyScheduleComponent],
+  declarations: [MyScheduleComponent, DashboardAdminComponent, DoctorComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,

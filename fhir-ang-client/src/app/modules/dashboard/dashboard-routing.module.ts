@@ -1,9 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { MyScheduleComponent } from './my-schedule.component';
+import { DoctorComponent } from './doctor/doctor.component';
+import { DashboardAdminComponent } from './admin/admin.component';
 
-const routes: Routes = [{ path: '', component: MyScheduleComponent }];
+const routes: Routes = [
+  { path: 'admin', component: DashboardAdminComponent },
+  { path: 'doctor', component: DoctorComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
