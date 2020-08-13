@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { AllNgZorroAntdModules } from 'src/app/all-ng-zorro-antd.module';
-import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { CoreModule } from '../../../core/core.module';
 
 import { AccountRoutingModule } from './account-routing.module';
 import { AccountComponent } from './account.component';
@@ -10,11 +9,6 @@ import { AccountDetailsComponent } from './account-details/account-details.compo
 
 @NgModule({
   declarations: [AccountComponent, AccountDetailsComponent],
-  imports: [
-    CommonModule,
-    AccountRoutingModule,
-    AllNgZorroAntdModules,
-    SweetAlert2Module,
-  ],
+  imports: [CommonModule, AccountRoutingModule, CoreModule],
 })
 export class AccountModule {}

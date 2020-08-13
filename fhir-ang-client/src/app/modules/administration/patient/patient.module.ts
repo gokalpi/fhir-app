@@ -1,10 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { AllNgZorroAntdModules } from 'src/app/all-ng-zorro-antd.module';
-import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-
+import { CoreModule } from '../../../core/core.module';
 import { PatientRoutingModule } from './patient-routing.module';
 import { PatientListComponent } from './patient-list/patient-list.component';
 import { PatientDetailsComponent } from './patient-details/patient-details.component';
@@ -32,13 +29,6 @@ import { PatientProceduresComponent } from './patient-details/patient-procedures
     PatientDiagnosticReportsComponent,
     PatientProceduresComponent,
   ],
-  imports: [
-    CommonModule,
-    PatientRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AllNgZorroAntdModules,
-    SweetAlert2Module,
-  ],
+  imports: [CommonModule, PatientRoutingModule, CoreModule],
 })
 export class PatientModule {}

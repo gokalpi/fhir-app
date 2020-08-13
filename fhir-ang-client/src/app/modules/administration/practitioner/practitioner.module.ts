@@ -1,23 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { AllNgZorroAntdModules } from 'src/app/all-ng-zorro-antd.module';
-import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-
+import { CoreModule } from '../../../core/core.module';
 import { PractitionerRoutingModule } from './practitioner-routing.module';
 import { PractitionerListComponent } from './practitioner-list/practitioner-list.component';
 import { PractitionerDetailsComponent } from './practitioner-details/practitioner-details.component';
 
 @NgModule({
   declarations: [PractitionerListComponent, PractitionerDetailsComponent],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    PractitionerRoutingModule,
-    AllNgZorroAntdModules,
-    SweetAlert2Module,
-  ],
+  imports: [CommonModule, PractitionerRoutingModule, CoreModule],
 })
 export class PractitionerModule {}

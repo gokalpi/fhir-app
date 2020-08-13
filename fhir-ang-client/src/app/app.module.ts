@@ -1,32 +1,27 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import en from '@angular/common/locales/en';
+import { en_US, NZ_I18N } from 'ng-zorro-antd';
 
 import { AppRoutingModule } from './app-routing.module';
+import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-/** config angular i18n **/
-import { registerLocaleData } from '@angular/common';
-import en from '@angular/common/locales/en';
-registerLocaleData(en);
-
-/** config ng-zorro-antd i18n **/
-import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
-
 import { JwtInterceptor, ErrorInterceptor } from './core/interceptors';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+
+registerLocaleData(en);
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
-    HttpClientModule,
     BrowserAnimationsModule,
-    SweetAlert2Module.forRoot(),
+    CoreModule,
+    SweetAlert2Module.forRoot()
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
