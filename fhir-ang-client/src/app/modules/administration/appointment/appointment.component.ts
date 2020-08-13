@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CalendarOptions } from '@fullcalendar/angular';
+import Swal from 'sweetalert2';
 
 import { FhirService } from 'src/app/core/services';
 
@@ -83,5 +84,17 @@ export class AppointmentComponent implements OnInit {
 
   handleDateClick(arg: any): void {
     alert('date click! ' + arg.dateStr);
+  }
+
+  onAdd(): void {
+    Swal.fire('Added!', `Appointment added successfully`, 'success');
+  }
+
+  onDelete(appointment: any): void {
+    Swal.fire('Deleted!', `Appointment with id ${appointment.id} deleted`, 'success');
+  }
+
+  onEdit(appointment: any): void {
+    console.log(`Editing appointment with id ${appointment.id}`);
   }
 }

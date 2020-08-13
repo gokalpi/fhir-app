@@ -4,22 +4,32 @@
       <a routerLink="/"><i nz-icon nzType="home" nzTheme="twotone"></i> <span>Home</span></a>
     </nz-breadcrumb-item>
     <nz-breadcrumb-item>
+      <a routerLink="/administration"><i nz-icon nzType="setting" nzTheme="twotone"></i> <span>Administration</span></a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
       <i nz-icon nzType="calendar"></i> <span>Encounters</span>
     </nz-breadcrumb-item>
   </nz-breadcrumb>
+
+  <nz-page-header-extra>
+    <button nz-button nzType="primary" (click)="onAdd()"><i nz-icon nzType="plus" nzTheme="outline"></i> Add
+      New</button>
+  </nz-page-header-extra>
 </nz-page-header>
 
-<ng-container *ngIf="isLoading">
-  <div id="loader-wrapper" class="loader-wrapper">
-    <div id="loader" class="loader">
-      <div class="inner one"></div>
-      <div class="inner two"></div>
-      <div class="inner three"></div>
-      <div class="message">Loading...</div>
+<nz-card>
+  <ng-container *ngIf="isLoading">
+    <div id="loader-wrapper" class="loader-wrapper">
+      <div id="loader" class="loader">
+        <div class="inner one"></div>
+        <div class="inner two"></div>
+        <div class="inner three"></div>
+        <div class="message">Loading...</div>
+      </div>
     </div>
-  </div>
-</ng-container>
+  </ng-container>
 
-<ng-container *ngIf="!isLoading">
-  <full-calendar [options]="calendarOptions"></full-calendar>
-</ng-container>
+  <ng-container *ngIf="!isLoading">
+    <full-calendar [options]="calendarOptions"></full-calendar>
+  </ng-container>
+</nz-card>

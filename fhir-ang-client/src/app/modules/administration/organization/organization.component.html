@@ -1,17 +1,23 @@
 <nz-page-header class="site-page-header" nzTitle="Organizations">
-    <nz-breadcrumb nz-page-header-breadcrumb nzSeparator=">">
-      <nz-breadcrumb-item>
-        <a routerLink="/"><i nz-icon nzType="home" nzTheme="twotone"></i> <span>Home</span></a>
-      </nz-breadcrumb-item>
-      <nz-breadcrumb-item>
-        <a routerLink="/administration"><i nz-icon nzType="setting" nzTheme="twotone"></i> <span>Administration</span></a>
-      </nz-breadcrumb-item>
-      <nz-breadcrumb-item>
-        <i nz-icon nzType="bank" nzTheme="twotone"></i> <span>Organizations</span>
-      </nz-breadcrumb-item>
-    </nz-breadcrumb>
-  </nz-page-header>
-  
+  <nz-breadcrumb nz-page-header-breadcrumb nzSeparator=">">
+    <nz-breadcrumb-item>
+      <a routerLink="/"><i nz-icon nzType="home" nzTheme="twotone"></i> <span>Home</span></a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a routerLink="/administration"><i nz-icon nzType="setting" nzTheme="twotone"></i> <span>Administration</span></a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <i nz-icon nzType="bank" nzTheme="twotone"></i> <span>Organizations</span>
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+
+  <nz-page-header-extra>
+    <button nz-button nzType="primary" (click)="onAdd()"><i nz-icon nzType="plus" nzTheme="outline"></i> Add
+      New</button>
+  </nz-page-header-extra>
+</nz-page-header>
+
+<nz-card>
   <ng-container *ngIf="isLoading">
     <div id="loader-wrapper" class="loader-wrapper">
       <div id="loader" class="loader">
@@ -22,16 +28,16 @@
       </div>
     </div>
   </ng-container>
-  
+
   <ng-container *ngIf="!isLoading">
-    <nz-table nzSize="small" #organizationsTable [nzData]="organizations">
+    <nz-table #organizationsTable [nzData]="organizations">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Phone</th>
-          <th>Address</th>
-          <th>Active</th>
+          <th *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
+            [nzSortDirections]="column.sortDirections" [nzFilterMultiple]="column.filterMultiple"
+            [nzFilters]="column.listOfFilter" [nzFilterFn]="column.filterFn">
+            {{ column.name }}
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -41,8 +47,22 @@
           <td>{{organization.phone}}</td>
           <td>{{organization.address}}</td>
           <td>{{organization.active}}</td>
+          <td>
+            <a [routerLink]="['/administration/organizations', organization.id]" title="View Details"><i nz-icon nzType="eye"
+                nzTheme="twotone" class="anticon-lg"></i></a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a title="Edit" (click)="onEdit(organization)"><i nz-icon nzType="edit" nzTheme="twotone"
+                nzTwotoneColor="#52c41a" class="anticon-lg"></i></a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a title="Delete" [swal]="deleteSwal" (confirm)="onDelete(organization)"><i nz-icon nzType="delete"
+                nzTheme="twotone" nzTwotoneColor="#eb2f96" class="anticon-lg"></i></a>
+          </td>
         </tr>
       </tbody>
     </nz-table>
   </ng-container>
-  
+</nz-card>
+
+<swal #deleteSwal title="Are you sure?" text="You won't be able to revert this!" icon="warning" showCancelButton="true"
+  focusCancel="true" confirmButtonColor="#3085d6" cancelButtonColor="#d33" confirmButtonText="Yes, delete it!">
+</swal>

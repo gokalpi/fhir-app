@@ -15,15 +15,17 @@
   </nz-breadcrumb>
 </nz-page-header>
 
-<ng-container *ngIf="practitioner$ | async as practitioner">
-  <h1>{{ getFullName(practitioner.name) }}</h1>
-  <div nz-row style="margin-bottom: 1rem;">
-    <div nz-col nzLg="24" nzXl="3" class="container-center" style="margin: 1rem"><img
-        src="/assets/img/{{practitioner.gender}}.svg"></div>
-    <div nz-col nzLg="24" nzXl="7">
-      <div nz-row *ngFor="let item of practitioner.identifier">
-        <div nz-col nzLg="14" nzMd="24">{{item.value}}</div>
+<nz-card>
+  <ng-container *ngIf="practitioner$ | async as practitioner">
+    <h1>{{ getFullName(practitioner.name) }}</h1>
+    <div nz-row style="margin-bottom: 1rem;">
+      <div nz-col nzLg="24" nzXl="3" class="container-center" style="margin: 1rem"><img
+          src="/assets/img/{{practitioner.gender}}.svg"></div>
+      <div nz-col nzLg="24" nzXl="7">
+        <div nz-row *ngFor="let item of practitioner.identifier">
+          <div nz-col nzLg="14" nzMd="24">{{item.value}}</div>
+        </div>
       </div>
     </div>
-  </div>
-</ng-container>
+  </ng-container>
+</nz-card>

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 import { CoreModule } from '../../../core/core.module';
 import { PatientRoutingModule } from './patient-routing.module';
@@ -29,6 +30,6 @@ import { PatientProceduresComponent } from './patient-details/patient-procedures
     PatientDiagnosticReportsComponent,
     PatientProceduresComponent,
   ],
-  imports: [CommonModule, PatientRoutingModule, CoreModule],
+  imports: [CommonModule, PatientRoutingModule, CoreModule, SweetAlert2Module],
 })
 export class PatientModule {}

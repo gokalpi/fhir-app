@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CalendarOptions } from '@fullcalendar/angular';
+import Swal from 'sweetalert2';
 
 import { FhirService } from 'src/app/core/services';
 
@@ -83,5 +84,17 @@ export class EncounterComponent implements OnInit {
 
   handleDateClick(arg: any): void {
     alert('date click! ' + arg.dateStr);
+  }
+
+  onAdd(): void {
+    Swal.fire('Added!', `Encounter added successfully`, 'success');
+  }
+
+  onDelete(encounter: any): void {
+    Swal.fire('Deleted!', `Encounter with id ${encounter.id} deleted`, 'success');
+  }
+
+  onEdit(encounter: any): void {
+    console.log(`Editing encounter with id ${encounter.id}`);
   }
 }
